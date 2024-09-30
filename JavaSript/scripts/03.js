@@ -11,14 +11,10 @@
         let fila=[f];
         resultado[f]=fila; 
        for(let c=0;c<num;c++){
-        if(f==0 || f==num-1 || c==0 || c==num-1){
-           resultado[f][c]='*';
-        }else if(f!=0 && c!=0 && c!=num-1 && f!=num-1){
-            resultado[f][c]=' ';
-        }
+            fila[c]=(f===0 || f===num-1 || c===0 || c===num-1)?'*':' ';
         }  
     }
-    
+
     for(let i of resultado){
         let result="";
        for(let j of i){
