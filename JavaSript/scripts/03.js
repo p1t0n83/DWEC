@@ -6,17 +6,25 @@
 
 (function () {
     let num = parseInt(prompt("Introduce un numero: ", 0));
-    let filas=new Array(num);
-    for(let i=0;i<num;++i){
-        filas[i]=new Array;
-       for(let j=0;j<num;j++){
-        if(i==0 || j==0 || i==num-1 || j==num-1 )
-            filas[i][j]="*";
-        else
-        filas[i][j]=" ";
-    }  
+    let resultado=new Array(num);
+    for(let f=0;f<num;++f){
+        let fila=[f];
+        resultado[f]=fila; 
+       for(let c=0;c<num;c++){
+        if(f==0 || f==num-1 || c==0 || c==num-1){
+           resultado[f][c]='*';
+        }else if(f!=0 && c!=0 && c!=num-1 && f!=num-1){
+            resultado[f][c]=' ';
+        }
+        }  
     }
-    console.log(filas);  
+    
+    for(let i of resultado){
+        let result="";
+       for(let j of i){
+           result+=j;
+       }
+       console.log(result);
+    }    
 }
 )();
-
