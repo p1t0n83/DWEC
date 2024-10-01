@@ -10,7 +10,7 @@
             }
             //for para rellenar
             for(let columna = 0; columna < 2*fila+1; columna++){
-                String += altura;
+                String += "*";
             }
             console.log(String);   
         }
