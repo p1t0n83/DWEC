@@ -5,7 +5,7 @@
  */
 
 (function () {
-    let num = parseInt(prompt("Introduce un numero: ", 0));
+    let num = parseInt(prompt("Introduce la altura del cuadrado: ", 0));
     let resultado=new Array(num);
     for(let f=0;f<num;++f){
         let fila=[f];

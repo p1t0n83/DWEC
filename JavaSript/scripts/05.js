@@ -1,4 +1,5 @@
 (function() {
+    //pedimos por teclado la altura
     let altura = parseInt(prompt("Mete la altura del rombo (debe ser un número impar)"));
 
     // Asegurarse de que la altura sea un número impar
@@ -7,11 +8,11 @@
         return;
     }
 
-    let mitad = Math.floor(altura / 2); // Calcula la mitad entera de la altura
+    let mitad = Math.floor(altura / 2); // Calcula la mitad entera de la altura para hacer la parte superior  e inferior
     let resultado = new Array(altura);
 
 
-    
+
     // Primera parte (parte superior del rombo)
     for (let superior = 0; superior <= mitad; superior++) {
         let relleno = "";
