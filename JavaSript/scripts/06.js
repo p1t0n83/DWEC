@@ -1,6 +1,6 @@
 'use strict'
 //si no lo convertimos a número no nos lo pilla el switch
-let opcion = parseInt(prompt('1.crear un cuadrado hueco <br/> 2.crear un triangulo <br/> 3.crear un rombo'));
+let opcion = parseInt(prompt('1.crear un cuadrado hueco \n 2.crear un triangulo \n 3.crear un rombo'));
 
 switch(opcion){
     //cuadrado
