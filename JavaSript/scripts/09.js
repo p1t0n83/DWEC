@@ -11,7 +11,7 @@ function agrupar(...valores) {
         posicion++;
         //si no existe ya la posicion del array del tipo que sacamos lo creamos
         if (!resultado[tipo]) {
-            resultado[tipo] = [];
+            resultado[tipo]=[];
         }
         //se mete la posicion en la que se encontraba el valor y el valor, en la posicion donde se almacene su tipo
         resultado[tipo]+=" Posición: " + posicion + " Valor: " + valor+". ";
