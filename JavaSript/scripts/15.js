@@ -72,20 +72,20 @@ function borrarTrabajador() {
 
 // Función para modificar un trabajador
 function modificarTrabajador() {
-    const codigo = prompt("Introduce el código del trabajador que deseas modificar (ej. E01):");
+    let codigo = prompt("Introduce el código del trabajador que deseas modificar (ej. E01):");
     
-    const index = trabajadores.findIndex(trabajador => trabajador.codigo === codigo);
-    
+    let index = trabajadores.findIndex(trabajador => trabajador.codigo === codigo);
+    //si no se encuentra se sale
     if (index === -1) {
         alert("No se encontró un trabajador con ese código.");
         return;
     }
-
+    //si lo encuentra lo cambiamos
     let trabajadorActual = trabajadores[index];
     // si usamos la comilla inversa, 
-    const nuevoNombre = prompt(`Introduce el nuevo nombre (actual: ${trabajadorActual.nombre}):`, trabajadorActual.nombre);
-    const nuevaCategoria = prompt(`Introduce la nueva categoría (actual: ${trabajadorActual.categoria}):`, trabajadorActual.categoria);
-    const nuevaContratacion = prompt(`Introduce el nuevo año de contratación (actual: ${trabajadorActual.contratacion}):`, trabajadorActual.contratacion);
+    let nuevoNombre = prompt(`Introduce el nuevo nombre (actual: ${trabajadorActual.nombre}):`, trabajadorActual.nombre);
+    let nuevaCategoria = prompt(`Introduce la nueva categoría (actual: ${trabajadorActual.categoria}):`, trabajadorActual.categoria);
+    let nuevaContratacion = prompt(`Introduce el nuevo año de contratación (actual: ${trabajadorActual.contratacion}):`, trabajadorActual.contratacion);
     
     // Actualizar los datos del trabajador
     trabajadorActual.nombre = nuevoNombre;
