@@ -39,13 +39,13 @@ function actualizarAlumnos(alumnos) {
         let aprobadas = true;
         let pendientes = [];
 
-        alumno.asignaturas.forEach(asignatura => {
-            totalNotas += asignatura.nota;
-            if (asignatura.nota < 5) {
+        for(let alumno of alumnos){
+            totalNotas += alumno.asignatura.nota;
+            if (alumno.asignatura.nota < 5) {
                 aprobadas = false;
                 pendientes.push(asignatura.modulo);
             }
-        });
+        };
 
         alumno.media = totalNotas / alumno.asignaturas.length;
         alumno.promociona = aprobadas;
