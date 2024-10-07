@@ -34,7 +34,7 @@ let alumnos = [
 // Función para calcular si un alumno promociona y su media
 function actualizarAlumnos(alumnos) {
     //foreach para recorrer el json
-    alumnos.forEach(alumno => {
+    for(let alumno of alumnos){
         let totalNotas = 0;
         let aprobadas = true;
         let pendientes = [];
@@ -50,27 +50,31 @@ function actualizarAlumnos(alumnos) {
         alumno.media = totalNotas / alumno.asignaturas.length;
         alumno.promociona = aprobadas;
         alumno.pendientes = pendientes;
-    });
+    };
 }
 
 // Función para imprimir los alumnos que promocionan
 function imprimirPromocionan(alumnos) {
     console.log("Alumnos que promocionan:");
-    alumnos.forEach((alumno, index) => {
+    let index=0;
+    for(let alumno of alumnos){
         if (alumno.promociona) {
             console.log(`${index + 1} - ${alumno.nombre} - Media: ${alumno.media.toFixed(2)}`);
         }
-    });
+        index++;
+    };
 }
 
 // Función para imprimir los alumnos que no promocionan
 function imprimirNoPromocionan(alumnos) {
     console.log("Alumnos que no promocionan:");
-    alumnos.forEach((alumno, index) => {
+    let index=0;
+    for(let alumno of alumnos){
         if (!alumno.promociona) {
             console.log(`${index + 1} - ${alumno.nombre} - Pendientes: [${alumno.pendientes.join(", ")}]`);
         }
-    });
+        index++;
+    };
 }
 
 // Actualizar los datos de los alumnos
