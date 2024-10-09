@@ -42,6 +42,11 @@
         }
     }
 
+    function actualizarInventario(nombre,cantidad){
+        if(nombre in productos){
+            
+        }
+    }
 
 
     //probamos los metodos
