@@ -25,6 +25,7 @@ let $bingo = (function () {
       cartones.jugador1=generarCarton();
       cartones.jugador2=generarCarton();
       cartones.jugador3=generarCarton();
+      
     }
 
     function generarCarton() {
@@ -72,7 +73,8 @@ let $bingo = (function () {
   
 })();
 
-function pintarCartones(idCarton){
+function pintarCartones(){
+   //primer carton 
     document.getElementById('comenzar').addEventListener('click', function() { 
         let carton =$bingo.cartones.jugador1;
         let contenido = "<table border='1'>";  
@@ -85,13 +87,42 @@ function pintarCartones(idCarton){
         }
         contenido += "</table>";
 
-        document.getElementById(idCarton).innerHTML = contenido;
-    });   
+        document.getElementById('jugador1').innerHTML = contenido;
+    }); 
+    //segundo carton
+    document.getElementById('comenzar').addEventListener('click', function() { 
+        let carton =$bingo.cartones.jugador2;
+        let contenido = "<table border='1'>";  
+        for(let fila = 0; fila < 3; fila++) { 
+            contenido += "<tr>"; 
+            for(let columna = 0; columna < 9; columna++) { 
+                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
+            }
+            contenido += "</tr>"; 
+        }
+        contenido += "</table>";
+
+        document.getElementById('jugador2').innerHTML = contenido;
+    }); 
+    //tercer carton
+    document.getElementById('comenzar').addEventListener('click', function() { 
+        let carton =$bingo.cartones.jugador3;
+        let contenido = "<table border='1'>";  
+        for(let fila = 0; fila < 3; fila++) { 
+            contenido += "<tr>"; 
+            for(let columna = 0; columna < 9; columna++) { 
+                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
+            }
+            contenido += "</tr>"; 
+        }
+        contenido += "</table>";
+
+        document.getElementById('jugador3').innerHTML = contenido;
+    }); 
 }
 
 window.addEventListener('load', function () {
    $bingo.iniciarJuego();
-   $bingo.pintarCartones('jugador1');
-   $bingo.pintarCartones('jugador2');
-   $bingo.pintarCartones('humano');
+   $bingo.pintarCartones();
+  
 });
