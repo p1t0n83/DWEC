@@ -73,56 +73,28 @@ let $bingo = (function () {
   
 })();
 
-function pintarCartones(){
+function pintarCartones(jugador){
    //primer carton 
     document.getElementById('comenzar').addEventListener('click', function() { 
-        let carton =$bingo.cartones.jugador1;
-        let contenido = "<div>";  
-        for(let fila = 0; fila < 3; fila++) { 
-            contenido += "<div>"; 
-            for(let columna = 0; columna < 9; columna++) { 
-                contenido += "<div>" + carton[fila][columna]+ "</div>"; 
-            }
-            contenido += "</div>"; 
-        }
-        contenido += "</div>";
+        let carton = $bingo.cartones[jugador]; // Accedemos al cartón del jugador
+        let contenido = '';  // Inicia la cadena para contener el HTML
 
-        document.getElementById('jugador1').innerHTML = contenido;
-    }); 
-    //segundo carton
-    document.getElementById('comenzar').addEventListener('click', function() { 
-        let carton =$bingo.cartones.jugador2;
-        let contenido = "<div>";  
-        for(let fila = 0; fila < 3; fila++) { 
-            contenido += "<div>"; 
-            for(let columna = 0; columna < 9; columna++) { 
-                contenido += "<div>" + carton[fila][columna]+ "</div>"; 
+        for (let fila = 0; fila < 3; fila++) { 
+            contenido += '<div style="display: flex;">'; // Cada fila del cartón es un div con display: flex
+            for (let columna = 0; columna < 9; columna++) {
+                // Se crea cada celda con el valor correspondiente del cartón (o vacío si no tiene valor)
+                contenido += '<div class="contenedor">' + (carton[fila][columna] || '') + '</div>'; 
             }
-            contenido += "</div>"; 
+            contenido += '</div>'; // Cerramos el div de la fila
         }
-        contenido += "</div>";
 
-        document.getElementById('jugador2').innerHTML = contenido;
-    }); 
-    //tercer carton
-    document.getElementById('comenzar').addEventListener('click', function() { 
-        let carton =$bingo.cartones.jugador3;
-        let contenido = "<table border='1'>";  
-        for(let fila = 0; fila < 3; fila++) { 
-            contenido += "<tr>"; 
-            for(let columna = 0; columna < 9; columna++) { 
-                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
-            }
-            contenido += "</tr>"; 
-        }
-        contenido += "</table>";
-
-        document.getElementById('jugador3').innerHTML = contenido;
-    }); 
+        document.getElementById(jugador).innerHTML = contenido; // Insertamos el contenido generado en el div del jugador
+    });
 }
 
 window.addEventListener('load', function () {
    $bingo.iniciarJuego();
-   $bingo.pintarCartones();
-  
+   $bingo.pintarCartones('jugador1');
+   $bingo.pintarCartones('jugador2');
+   $bingo.pintarCartones('jugador3');
 });
