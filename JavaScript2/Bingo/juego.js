@@ -17,6 +17,11 @@ let $bingo = (function () {
         generarCarton,
         iniciarJuego,
         cartones,
+        siguienteBola,
+        indicarValor,
+        cantarLinea,
+        cantarBingo,
+        alguienGano,
     };
 
     
@@ -27,7 +32,27 @@ let $bingo = (function () {
       cartones.jugador3=generarCarton();
 
     }
+    
 
+    function siguienteBola(){
+    }
+
+    function indicarValor(){
+
+    }
+
+    function cantarLinea(){
+
+    }
+
+    function cantarBingo(){
+
+    }
+
+    function alguienGano(){
+
+    }
+    
     function generarCarton() {
         let carton = [[], [], []]; // Iniciamos el cartón como un array de arrays
         let usados = new Set(); // Conjunto para almacenar los números usados
