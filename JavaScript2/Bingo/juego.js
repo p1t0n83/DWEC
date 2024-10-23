@@ -25,7 +25,7 @@ let $bingo = (function () {
       cartones.jugador1=generarCarton();
       cartones.jugador2=generarCarton();
       cartones.jugador3=generarCarton();
-      
+
     }
 
     function generarCarton() {
@@ -77,30 +77,30 @@ function pintarCartones(){
    //primer carton 
     document.getElementById('comenzar').addEventListener('click', function() { 
         let carton =$bingo.cartones.jugador1;
-        let contenido = "<table border='1'>";  
+        let contenido = "<div>";  
         for(let fila = 0; fila < 3; fila++) { 
-            contenido += "<tr>"; 
+            contenido += "<div>"; 
             for(let columna = 0; columna < 9; columna++) { 
-                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
+                contenido += "<div>" + carton[fila][columna]+ "</div>"; 
             }
-            contenido += "</tr>"; 
+            contenido += "</div>"; 
         }
-        contenido += "</table>";
+        contenido += "</div>";
 
         document.getElementById('jugador1').innerHTML = contenido;
     }); 
     //segundo carton
     document.getElementById('comenzar').addEventListener('click', function() { 
         let carton =$bingo.cartones.jugador2;
-        let contenido = "<table border='1'>";  
+        let contenido = "<div>";  
         for(let fila = 0; fila < 3; fila++) { 
-            contenido += "<tr>"; 
+            contenido += "<div>"; 
             for(let columna = 0; columna < 9; columna++) { 
-                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
+                contenido += "<div>" + carton[fila][columna]+ "</div>"; 
             }
-            contenido += "</tr>"; 
+            contenido += "</div>"; 
         }
-        contenido += "</table>";
+        contenido += "</div>";
 
         document.getElementById('jugador2').innerHTML = contenido;
     }); 
