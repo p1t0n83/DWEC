@@ -1,10 +1,31 @@
 'use strict';
 
-let bingo = (function () {
-
-    return {
-        generarCarton, 
+let $bingo = (function () {
+    let cartones = {
+       jugador1:[[],[],[]],
+       jugador2:[[],[],[]],
+       humano:[[],[],[]]
     };
+    let datosMarcador = {
+        jugador1:"",
+        jugador2:"",
+        humano:""
+    };
+    let bolasSacadas = {};
+    return {
+        pintarCartones,
+        generarCarton,
+        iniciarJuego,
+        cartones,
+    };
+
+    
+    
+    function iniciarJuego(){
+      cartones.jugador1=generarCarton();
+      cartones.jugador2=generarCarton();
+      cartones.jugador3=generarCarton();
+    }
 
     function generarCarton() {
         let carton = [[], [], []]; // Iniciamos el cartón como un array de arrays
@@ -51,9 +72,9 @@ let bingo = (function () {
   
 })();
 
-window.addEventListener('load', function () {
+function pintarCartones(idCarton){
     document.getElementById('comenzar').addEventListener('click', function() { 
-        let carton = bingo.generarCarton(); 
+        let carton =$bingo.cartones.jugador1;
         let contenido = "<table border='1'>";  
         for(let fila = 0; fila < 3; fila++) { 
             contenido += "<tr>"; 
@@ -64,6 +85,13 @@ window.addEventListener('load', function () {
         }
         contenido += "</table>";
 
-        document.getElementById("carton1").innerHTML = contenido;
-    });
+        document.getElementById(idCarton).innerHTML = contenido;
+    });   
+}
+
+window.addEventListener('load', function () {
+   $bingo.iniciarJuego();
+   $bingo.pintarCartones('jugador1');
+   $bingo.pintarCartones('jugador2');
+   $bingo.pintarCartones('humano');
 });
