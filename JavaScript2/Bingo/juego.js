@@ -1,66 +1,69 @@
 'use strict';
 
 let bingo = (function () {
-    const cartonesJugadores = {};
-    const datosMarcador = {};
-    const bolasSacadas = {};
+
     return {
-        generarCarton,
+        generarCarton, 
     };
-
-
 
     function generarCarton() {
         let carton = [[], [], []]; // Iniciamos el cartón como un array de arrays
-        let usados = new Set();
-        let max = 0;
-        let min = 0;
-        for (let filas = 0; filas < 3; filas++) { // 3 filas  
-            for (let columna = 1; columna <= 9; ++columna) { // 9 columnas por fila
-                max = columna * 10; // Mínimo valor de la columna
-                min = max - 9; // Máximo valor de la columna
-                let numero = Math.floor(Math.random() * (max - min + 1)) + min; // Generar un número aleatorio entre min y max
+        let usados = new Set(); // Conjunto para almacenar los números usados
+
+        // Generar números aleatorios para cada columna y rellenar el cartón
+        for (let columna = 0; columna < 9; columna++) { // 9 columnas
+            let max = (columna + 1) * 10; // Máximo valor de la columna
+            let min = max - 9; // Mínimo valor de la columna
+
+            let numerosColumna = [];
+
+            // Generar 3 números únicos para la columna
+            while (numerosColumna.length < 3) {
+                let numero = Math.floor(Math.random() * (max - min + 1)) + min;
                 if (!usados.has(numero)) {
-                    carton[filas][columnas].push(numero); // Agregar número a la fila
-                    usados.push(numero);
+                    usados.add(numero); // Añadir al conjunto de números usados
+                    numerosColumna.push(numero); // Añadir al array de la columna
                 }
             }
-        }
-        //ordenar las columnas
-        for (let columna = 0; columna < 8; columna++) {
-            let columnas = [[], [], []];
-            for (let fila = 0; fila < 2; fila++) {
-                columnas[fila] = usados[columna][fila];
-            }
-            columnas.sort();
-            for (let fila = 0; fila < 2; fila++) {
-                usados[columna][fila] = columnas[fila];
+            // Ordenar los números dentro de la columna
+            numerosColumna.sort((a, b) => a - b);
+
+            // Asignar los números generados a la columna correspondiente en el cartón
+            for (let fila = 0; fila < 3; fila++) {
+                carton[fila][columna] = numerosColumna[fila] || '*'; // Asignar '*' si no hay número
             }
         }
 
-        //rellenamos con asteriscos los espacios sobrantes
-        for (let filas = 0; filas < 3; filas++) { // 3 filas  
-            for (let columna = 1; columna <= 9; ++columna) {
-                if (carton[filas][columnas] === undefined) {
-                    carton[filas][columnas] = '*';
+        // Rellenar con asteriscos algunas posiciones aleatorias (para tener 4 números por fila)
+        for (let fila = 0; fila < 3; fila++) {
+            let asteriscos = 0;
+            while (asteriscos < 4) { // 4 espacios vacíos por fila
+                let columna = Math.floor(Math.random() * 9); // Columna aleatoria
+                if (carton[fila][columna] !== '*') {
+                    carton[fila][columna] = '*';
+                    asteriscos++;
                 }
             }
         }
-
-        for (let filas = 0; filas < 3; filas++) { // 3 filas  
-            let fila = [];
-            for (let columna = 1; columna <= 9; ++columna) { // 9 columnas por fila
-                fila[columna] = carton[filas][columna];
-            }
-            console.log(fila);
-        }
+        return carton;
     }
-}
-)();
 
-window.addEventListener('load', function() {
-    $bingo.generarCarton();
+  
+})();
+
+window.addEventListener('load', function () {
+    document.getElementById('comenzar').addEventListener('click', function() { 
+        let carton = bingo.generarCarton(); 
+        let contenido = "<table border='1'>";  
+        for(let fila = 0; fila < 3; fila++) { 
+            contenido += "<tr>"; 
+            for(let columna = 0; columna < 9; columna++) { 
+                contenido += "<td>" + carton[fila][columna]+ "</td>"; 
+            }
+            contenido += "</tr>"; 
+        }
+        contenido += "</table>";
+
+        document.getElementById("carton1").innerHTML = contenido;
+    });
 });
-
-//para las bolas
-//let bolas bolas.short((a.b)=>{random()-0.5});
