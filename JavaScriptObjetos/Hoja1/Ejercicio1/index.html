@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factura</title>
+    <script src="scripts/Ejercicio3.js" defer></script>
+</head>
+
+<body>
+    <h1>Datos de Factura</h1>
+    <form>
+        <p>Cliente NIF: <input type="text" id="NIF"></p>
+        <p>Fecha: <input type="date" id="fecha"></p>
+        <p>Hora: <input type="time" id="hora"></p>
+        <p>Pagada: <input type="checkbox" id="pagada"></p>
+        <button id="actualizar">Actualizar</button>
+    </form>
+    <hr>
+    <h1>Agregar Línea</h1>
+    <form>
+        <p>Concepto: <input type="text" id="concepto"></p>
+        <p>Cantidad: <input type="number" id="cantidad"></p>
+        <p>Precio: <input type="number" id="precio" step="0.01"></p>
+        <button id="agregarLinea">Agregar línea</button>
+        <button id="eliminarLinea">Eliminar última línea</button>
+    </form>
+    <hr>
+    <h1>Serialización y Deserialización</h1>
+    <form>
+        <p>Serializar Factura: <textarea id="serializar" rows="4"></textarea></p>
+        <button id="serializarJSON">Serializar</button>
+    </form>
+    <form>
+        <p>Deserializar Factura: <textarea id="deserializar" rows="4"></textarea></p>
+        <button id="deserializarJSON">Deserializar</button>
+    </form>
+    <hr>
+    <h1>Impresión de Factura</h1>
+    <pre id="impresion"></pre>
+</body>
+
+</html>
