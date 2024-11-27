@@ -1,6 +1,6 @@
 //Clase donde manejaremos el html de la pagina principal y manejaremos las listas delos objetos que creemos
 //import para poder crear objetos de la clase que maneja la base de datos
-import { BD } from './clases/BD.js';
+import { BD } from './Clases/BD.js';
 //import para poder usar los datos de la base de datos
 import datosTaller from './datos-taller.js';
 //export para que pueda usarse en otros ficheros
@@ -49,10 +49,38 @@ export class GestionMecanica {
                 this.#mostrarSeccion(seccion);
             });
         });
+        // Evento para capturar el formulario de creación de vehículo
+        document.querySelector("#formNuevoVehiculo")?.addEventListener('submit', (e) => {
+            e.preventDefault();  // Prevenir envío de formulario por defecto
+            this.#crearVehiculo();
+        });
+
+
+        // Evento global para capturar clicks en botones de las listas (ver o borrar) y ver reparaciones
+        document.addEventListener("click", (e) => {
+            const accion = e.target.dataset.accion; // "ver" o "borrar" y "reparaciones"
+            const id = e.target.dataset.id; // ID asociado al botón pulsado
+
+            if (accion == "ver") {
+                // Llamamos a mostrarSeccion y pasamos el ID
+                this.#mostrarSeccion("ver", id ? parseInt(id) : null);
+            }
+
+            if (accion == "borrar") {
+                // Aquí puedes implementar la lógica para borrar un vehículo
+                this.#mostrarSeccion("borrar", id ? parseInt(id) : null);
+            }
+
+            if (accion == "reparaciones") {
+                this.#mostrarSeccion("reparaciones", id ? parseInt(id) : null);
+            }
+        });
+
+
     }
 
     //este metodo dependiendo de la data-seccion que haya sido pasada por parametro generara un html diferente
-    #mostrarSeccion(seccion) {
+    #mostrarSeccion(seccion, id = null) {
         //se mira si se ha pulsado un boton
         const resultados = document.querySelector("#resultados");
         switch (seccion) {
@@ -64,7 +92,15 @@ export class GestionMecanica {
             case "vehiculos":
                 resultados.innerHTML = this.#generarHTMLVehiculos(this.#clienteBD.obtenerVehiculos());
                 break;
-            //me faltan los casos de reparaciones
+            //para el de ver y crear vehiculo
+            case "ver":
+                resultados.innerHTML = this.#generarHTMLVehiculo(id);
+                break;
+            case "borrar":
+                this.#borrarVehiculo(id);
+                break;
+            case "reparaciones":
+                this.#verReparaciones(id);
             default:
                 resultados.innerHTML = `<p>Sección no implementada: ${seccion}</p>`;
         }
@@ -103,15 +139,143 @@ export class GestionMecanica {
     #generarHTMLVehiculos(vehiculos) {
         return `
             <h1>Listado de Vehículos</h1>
-            <button id="crear-vehiculo">Crear Nuevo Vehículo</button>
+            <button data-accion="ver" data-id=null >Crear Nuevo Vehículo</button>
             <ul>
                 ${vehiculos.map(veh => `
                     <li>
                         ${veh.matricula} - ${veh.propietario.nombre}
-                        <button data-accion="ver" data-id="${veh.id}">Ver</button>
+                ${console.log(veh.vehiculoId)}
+                        <button data-accion="ver" data-id="${veh.vehiculoId}">Ver</button>
                         <button data-accion="borrar" data-id="${veh.id}">Borrar</button>
                     </li>`).join('')}
             </ul>
         `;
     }
+
+    #generarHTMLVehiculo(vehiculoid = null) {
+        const vehiculos = datosTaller.vehiculos;
+        const vehiculo = vehiculos.find(veh => veh.vehiculoId == vehiculoid);
+        if (!vehiculoid) {
+            return `
+            <h1>Registrar un nuevo vehiculo</h1>
+            <form id="formNuevoVehiculo">
+                <label for="matricula">Matrícula:</label>
+                <input type="text" id="matricula" name="matricula" required><br>
+
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required><br>
+
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required><br>
+
+                <label for="año">Año:</label>
+                <input type="number" id="año" name="año" required><br>
+
+                <label for="motor">Motor:</label>
+                <input type="text" id="motor" name="motor" required><br>
+
+                <h2>Propietario</h2>
+
+                <label for="nombrePropietario">Nombre:</label>
+                <input type="text" id="nombrePropietario" name="nombrePropietario" required><br>
+
+                <label for="telefonoPropietario">Teléfono:</label>
+                <input type="number" id="telefonoPropietario" name="telefonoPropietario" required><br>
+
+                <label for="emailPropietario">Email:</label>
+                <input type="email" id="emailPropietario" name="emailPropietario" required><br>
+
+                <button type="submit">Guardar Vehículo</button>
+            </form>`;
+        } else {
+            return `
+            <h1>Propiedades del vehiculo</h1>
+            <ul>
+            <li>Matricula:${vehiculo.matricula} - Marca:${vehiculo.marca} - Modelo:${vehiculo.modelo} - Año:${vehiculo.año} - Motor:${vehiculo.motor}</li>
+            <h2>Propiedades del propietario</h2>
+            <li>Nombre${vehiculo.propietario.nombre} - Telefono:${vehiculo.propietario.telefono} - Email:${vehiculo.propietario.email}</li>
+            </ul>
+            <button type="submit" data-accion="reparaciones" data-id="${vehiculo.vehiculoId}">Ver reparaciones</button>`;
+        }
+    }
+
+    // Crear un nuevo vehículo
+    #crearVehiculo() {
+        const matricula = document.querySelector("#matricula").value;
+        const marca = document.querySelector("#marca").value;
+        const modelo = document.querySelector("#modelo").value;
+        const año = document.querySelector("#año").value;
+        const motor = document.querySelector("#motor").value;
+        const nombrePropietario = document.querySelector("#nombrePropietario").value;
+        const telefonoPropietario = document.querySelector("#telefonoPropietario").value;
+        const emailPropietario = document.querySelector("#emailPropietario").value;
+
+        // Crear un nuevo objeto Vehiculo
+        const nuevoVehiculo = new Vehiculo(
+            null, // El ID será autoincremental, lo gestionamos en la base de datos
+            matricula,
+            marca,
+            modelo,
+            año,
+            motor,
+            {
+                nombre: nombrePropietario,
+                telefono: telefonoPropietario,
+                email: emailPropietario
+            }
+        );
+
+        // Añadir el nuevo vehículo a la base de datos
+        this.#clienteBD.crearVehiculo(nuevoVehiculo);
+
+        // Volver a mostrar el listado de vehículos
+        this.#mostrarSeccion("vehiculos");
+    }
+
+    // Borrar vehículo
+    #borrarVehiculo(id) {
+        if (!id) {
+            return "No se pudo borrar el vehiculo, id no encontrado";
+        } else {
+            this.#clienteBD.borrarVehiculo(id);
+        }
+
+    }
+
+    #verReparaciones(vehiculoId) {
+        const vehiculo = datosTaller.vehiculos.find(veh => veh.vehiculoId === vehiculoId);
+        const reparaciones = datosTaller.reparaciones.filter(reparacion => reparacion.vehiculoId === vehiculoId);
+
+        return `
+        <h1>Propiedades del vehículo</h1>
+        <ul>
+            <li>Matricula: ${vehiculo.matricula} - Marca: ${vehiculo.marca} - Modelo: ${vehiculo.modelo} - Año: ${vehiculo.año} - Motor: ${vehiculo.motor}</li>
+            <h2>Propiedades del propietario</h2>
+            <li>Nombre: ${vehiculo.propietario.nombre} - Teléfono: ${vehiculo.propietario.telefono} - Email: ${vehiculo.propietario.email}</li>
+        </ul>
+        <h2>Reparaciones</h2>
+        ${reparaciones.map(reparacion => `
+            <div>
+                <h3>Reparación ID: ${reparacion.reparacionId}</h3>
+                <p><strong>Descripción:</strong> ${reparacion.descripcion}</p>
+                <p><strong>Fecha:</strong> ${reparacion.fecha}</p>
+                <p><strong>Kilómetros:</strong> ${reparacion.kilometros}</p>
+                <p><strong>Presupuesto:</strong> ${reparacion.presupuesto ? 'Sí' : 'No'}</p>
+                <p><strong>Aprobada:</strong> ${reparacion.aprobada ? 'Sí' : 'No'}</p>
+                <p><strong>Pagado:</strong> ${reparacion.pagado ? 'Sí' : 'No'}</p>
+                <p><strong>Terminado:</strong> ${reparacion.terminado ? 'Sí' : 'No'}</p>
+                <h4>Trabajos Realizados:</h4>
+                <ul>
+                    ${reparacion.trabajos.map(trabajo => `
+                        <li>${trabajo.concepto} - Precio Unitario: ${trabajo.precioUnitario}€ - Cantidad: ${trabajo.cantidad} - Total: ${trabajo.totalTrabajo}€</li>
+                    `).join('')}
+                </ul>
+            </div>
+        `).join('')}
+    `;
+    }
+
 }
+
+
+
