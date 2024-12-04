@@ -13,6 +13,7 @@ export class BD {
         this.#siguienteReparacionId = reparacionesIniciales.length + 1;
     }
 
+    
     //metodo para obtener todos los vehiculos,los retorna
     obtenerVehiculos() {
         return this.#vehiculos;
@@ -31,15 +32,16 @@ export class BD {
     }
 
     //borramos un vehiculo segun el id pasado por parametro
-    borrarVehiculo(vehiculoId) {
-        //buscamos el vehiculo a borrar por su Id gracias a filter
-        let vehiculoBorrar = this.#vehiculos.filter(vehiculoId);
-        //sacamos su posicion del array con indexOf,el 0 para indicar por donde empieza 
-        let vehiculoIndex = this.#vehiculos.indexOf(vehiculoBorrar, 0);
-        //el objeto que se encuentre en la posicion dada lo dejamos a null
-        this.#vehiculos[vehiculoIndex] = null;
-        //y ahora con un mapa pasamos los datos de vuelta al array, buscando los que no estan vacios
-        this.#vehiculos = this.#vehiculos.map(vehiculo => vehiculo !== null);
+    eliminarVehiculo(vehiculoId) {
+        // Encuentra el índice del vehículo con el id dado
+        const index = this.#vehiculos.findIndex(veh => veh.id === vehiculoId);
+        if (index !== -1) {
+            // Elimina el vehículo del array
+            this.#vehiculos.splice(index, 1);
+
+            // Elimina todas las reparaciones asociadas al vehículo
+            this.#reparaciones = this.#reparaciones.filter(rep => rep.vehiculoId !== vehiculoId);
+        }
     }
 
     //obtenemos las reparaciones que tengan el mismo valor que le pasemos,el filtro puede ser Fecha,Pagado y Terminado
@@ -63,14 +65,20 @@ export class BD {
         return reparacion;
     }
 
-    borrarReparacion(reparacionId) {
-        //buscamos el vehiculo a borrar por su Id gracias a filter
-        let reparacionBorrar = this.#reparaciones.filter(reparacionId);
-        //sacamos su posicion del array con indexOf,el 0 para indicar por donde empieza 
-        let reparacionIndex = this.#reparaciones.indexOf(reparacionBorrar, 0);
-        //el objeto que se encuentre en la posicion dada lo dejamos a null
-        this.#reparaciones[reparacionIndex] = null;
-        //y ahora con un mapa pasamos los datos de vuelta al array, buscando los que no estan vacios
-        this.#reparaciones = this.#reparaciones.map(reparacion => reparacion !== null);
+    eliminarReparacion(reparacionId) {
+        // Encuentra el índice de la reparación con el id dado
+        const index = this.#reparaciones.findIndex(rep => rep.id === reparacionId);
+        if (index !== -1) {
+            // Si existe, elimina el elemento
+            this.#reparaciones.splice(index, 1);
+        }
+    }
+
+     // Método para buscar vehículos por matrícula o número
+     buscarVehiculo(criterio) {
+        // Filtra los vehículos que coincidan con el criterio proporcionado en la matrícula o el número
+        return this.#vehiculos.filter(vehiculo => 
+            vehiculo.matricula.includes(criterio) || String(vehiculo.numero).includes(criterio)
+        );
     }
 }
