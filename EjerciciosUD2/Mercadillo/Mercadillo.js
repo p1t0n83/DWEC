@@ -15,6 +15,7 @@ $negocio = function () {//array asociativo donde guardamos los productos que tie
             producto.Categoria = categoria;
             producto.Precio = precio;
             productos.push(producto);
+            alert("Producto añadido con exito");
         } else {
             alert("El producto ya se encuentra en el array");
         }
@@ -95,8 +96,16 @@ $negocio = function () {//array asociativo donde guardamos los productos que tie
         lista += "</ul>";
         return lista;
     }
+
+
 }();
 //con esto haremos que cuando se inicie l pagina empiezen a funcionar nuestros metodos
 window.addEventListener("load", function () {
-
+    document.getElementById("crear").addEventListener("click", function () {
+        let nombre = document.getElementById("nombre");
+        let precio = document.getElementById("precio");
+        let cantidad = document.getElementById("cantidad");
+        let categoria = document.getElementById("categoria");
+        this.$negocio.agregarProducto(nombre, precio, cantidad, categoria);
+    })
 });

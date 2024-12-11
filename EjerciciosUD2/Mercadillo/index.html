@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script url="Mercadillo.js"></script>
+    <script src="Mercadillo.js"></script>
 </head>
 
 <body>
@@ -13,18 +13,24 @@
         <form>
             <h1>Agregar producto</h1>
             <label for="nombre">
-                <input type="text" id="nombre" name="nombre" required>
+                Nombre:<input type="text" id="nombre" name="nombre" required>
             </label>
             <br>
             <label for="cantidad">
-                <input type="number" id="cantidad" name="cantidad" required>
+                Cantidad:<input type="number" id="cantidad" name="cantidad" step="1" required>
             </label>
+            <br>
             <label for="precio">
-                <input type="number" id="precio" name="precio" required>
+                Precio:<input type="number" id="precio" name="precio" required>
             </label>
+            <br>
             <label for="categoria">
-                <input type="text" id="categoria" name="categoria" required>
+                Categoria:<input type="text" id="categoria" name="categoria" required>
             </label>
+            <br>
+            <button id="crear">Crear</button>
+            <hr>
+
         </form>
     </div>
 </body>
