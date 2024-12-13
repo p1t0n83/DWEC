@@ -85,7 +85,7 @@ let $negocio = (function () {//array asociativo donde guardamos los productos qu
         let contador = 1;
         for (let producto of productos) {
             lista += `
-        <h2>Producto ${contador}</h2>
+        <h2>Producto ${contador++}</h2>
             <ul>
         <li>Nombre: ${producto.nombre}</li>
         <li>Categoria: ${producto.Categoria}</li>
@@ -93,6 +93,7 @@ let $negocio = (function () {//array asociativo donde guardamos los productos qu
         <li>Precio: ${producto.Precio}</li>
         <li>Total:${producto.Precio * producto.Cantidad}</li>
         </ul>`;
+
         }
         lista += "</ul>";
         return lista;
@@ -100,9 +101,10 @@ let $negocio = (function () {//array asociativo donde guardamos los productos qu
 
     function filtrarProductosPorCategoria(categoria) {
         let lista = "<ul>";
+        let contador = 1;
         for (let producto of productos) {
             if (producto.Categoria === categoria) {
-                lista += `
+                lista += ` <h2>Producto ${contador++}</h2>
         <ul>
         <li>Nombre: ${producto.nombre}</li> 
         <li>Cantidad: ${producto.Cantidad}</li>
