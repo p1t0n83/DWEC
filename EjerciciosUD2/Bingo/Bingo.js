@@ -34,12 +34,15 @@ let $bingo = (function () {
         cartones[0] = pintarCarton();
         cartones[1] = pintarCarton();
         cartones[2] = pintarCarton();
+        cartones[0] = pintarAsteriscos(cartones[0]);
+        cartones[1] = pintarAsteriscos(cartones[1]);
+        cartones[2] = pintarAsteriscos(cartones[2]);
         //carton1
         let contenido = ``;
         for (let i = 0; i < cartones[0].length; i++) {
             contenido += '<div id="fila">';
             for (let j = 0; j < 3; j++) {
-                contenido += '<div id="columna">' + cartones[0][i][j] + '</div>';
+                contenido += '<div id="columna" >' + cartones[0][i][j] + '</div>';
             }
             contenido += "</div>";
         }
@@ -69,6 +72,7 @@ let $bingo = (function () {
         contenedor.innerHTML = contenido;
     }
 
+
     function verificarCartonesNoHumanos() {
 
     }
@@ -78,7 +82,7 @@ let $bingo = (function () {
     }
 
     function generarNumeroRango(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+        return parseInt(Math.floor(Math.random() * (max - min + 1)) + min);
     }
 
     function artualizarMarcadores() {
@@ -103,7 +107,7 @@ let $bingo = (function () {
             min = max - 9;
             //inicializamos la fila
             carton[(i > 0 ? (i - 1) : 0)] = [];
-            for (let j = 0; j <= 3; j++) {
+            for (let j = 0; j <= 2; j++) {
                 //usamos la funcion auxiliar de generar numero
                 numero = generarNumeroRango(min, max);
                 //miramos que no se encuentre dentro del set
@@ -112,6 +116,42 @@ let $bingo = (function () {
                     carton[(i > 0 ? (i - 1) : 0)][j] = numero;
                     numerosUsados.add(numero);
                 }
+            }
+        }
+        return carton;
+    }
+    //quiero poner un contador, que cuento el numero de asteriscos totales y otro que cuenta por fila para no poner mas de 2, a su vez como son 12 en total,solo pueden haber 3 filas con doble asterisco
+    function pintarAsteriscos(carton) {
+        //for para recorrer el carton
+        let asteriscos = 0;
+        let asteriscosFila = Array(9).fill(0);
+        for (let i = 1; i <= 9; i++) {
+            for (let j = 0; j <= 2; j++) {
+                if (carton[(i > 0 ? (i - 1) : 0)][j] === undefined) {
+                    carton[(i > 0 ? (i - 1) : 0)][j] = '*';
+                    asteriscosFila[(i > 0 ? (i - 1) : 0)]++;
+                    asteriscos++;
+                }
+            }
+        }//nos aseguramos de que haya al menos un asterisco por fila
+        for (let i = 0; i < 9; i++) {
+            let columnaAleatoria = generarNumeroRango(0, 2);
+            if (carton[i][columnaAleatoria] !== '*') {
+                carton[i][columnaAleatoria] = '*';
+                asteriscosFila[i]++;
+                asteriscos++;
+            }
+        }
+
+        while (asteriscos < 12) {
+            let filaAleatoria = generarNumeroRango(0, 8);
+            let columnaAleatoria = generarNumeroRango(0, 2);
+
+            // Verificar que la fila tenga menos de 2 asteriscos y que no haya ya un asterisco en la posición
+            if (asteriscosFila[filaAleatoria] < 2 && carton[filaAleatoria][columnaAleatoria] !== '*') {
+                carton[filaAleatoria][columnaAleatoria] = '*';
+                asteriscosFila[filaAleatoria]++;
+                asteriscos++;
             }
         }
         return carton;

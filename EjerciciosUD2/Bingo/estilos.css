@@ -1,24 +1,44 @@
-#columna {
-    display: inline-block;
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-    text-align: center;
-    line-height: 50px;
-    font-size: 20px;
-    margin: 0;
-    /* Elimina el margen entre las celdas */
-    padding: 0;
-    /* Elimina cualquier relleno adicional */
-    box-sizing: border-box;
-    /* Asegura que el tamaño incluya bordes y padding */
-}
+ body {
+     font-family: Arial, sans-serif;
+     text-align: center;
+     background: linear-gradient(to right, red, yellow, red);
+ }
+
+ #cartones div {
+     margin: 5px 0;
+ }
+
+ #carton1,
+ #carton2,
+ #carton3 {
+     display: inline-block;
+     margin: 10px;
+     padding: 10px;
+     border: 1px solid #ccc;
+     border-radius: 5px;
+     background-color: #fff;
+ }
 
 
-#carton1,
-#carton2,
-#carton3 {
-    display: flex;
-    gap: 20px;
-    /* Añade espacio entre los cartones */
-}
+
+ #columna {
+
+     display: inline-block;
+     width: 30px;
+     height: 30px;
+     line-height: 30px;
+     margin: 0 2px;
+     border: 1px solid #333;
+     border-radius: 5px;
+     background-color: #eaeaea;
+     cursor: pointer;
+ }
+
+ #fila {
+     display: inline-block;
+     width: 30px;
+     height: 30px;
+     line-height: 30px;
+     margin: 0 2px;
+
+ }
