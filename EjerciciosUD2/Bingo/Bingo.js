@@ -9,8 +9,9 @@ let $bingo = (function () {
         generarCartones();
         indicarValorHumano();
         generarNumerosAleatorios();
-        sacarSiguienteBola()
+        sacarSiguienteBola();
         pintarResumenBolas();
+        
     }
 
     function sacarSiguienteBola() {
@@ -20,7 +21,21 @@ let $bingo = (function () {
     }
 
     function indicarValorHumano() {
-
+        document.getElementById("carton3").addEventListener("click", function(event) {
+            if (event.target.tagName === "INPUT") {
+                let id = event.target.id; // Captura el ID del input
+                let valor = parseInt(event.target.value); // Captura el valor del input y lo convierte a número
+    
+                console.log(id, valor);
+                
+                // Verificar si el valor está en bolasSacadas
+                if (bolasSacadas.some(num => num === valor)) { 
+                    event.target.style.backgroundColor = 'lightgreen';
+                } else {
+                   
+                }
+            }
+        });
     }
 
     function cantarLineaHumano() {
@@ -105,9 +120,28 @@ let $bingo = (function () {
     }
 
     function comprobarNumeroNoHumano() {
-           
-        
-    }
+        // Seleccionar todos los inputs dentro de los divs carton1 y carton2
+        let inputsCarton1 = document.querySelectorAll("#cartones #carton1 input");
+        let inputsCarton2 = document.querySelectorAll("#cartones #carton2 input");
+    
+        // Función para marcar el fondo del input
+        function marcarNumero(valor, inputs) {
+            inputs.forEach(input => {
+                let id = input.id;
+                let inputValue = parseInt(input.value);
+                if (bolasSacadas.some(num => num === inputValue)) {
+                    input.style.backgroundColor = 'lightgreen'; // Color para los números ya sacados
+                } else {
+                    input.style.backgroundColor = ''; // Restaurar color por defecto
+                }
+            });
+        }
+    
+        // Llamar la función para ambos cartones cuando se saque una nueva bola
+        function actualizarCartones() {
+            marcarNumero(bolasSacadas, inputsCarton1);
+            marcarNumero(bolasSacadas, inputsCarton2);
+        }
 
     function generarNumeroRango(min, max) {
         return parseInt(Math.floor(Math.random() * (max - min + 1)) + min);
@@ -116,8 +150,8 @@ let $bingo = (function () {
 
     function generarNumerosAleatorios() {
         const numeros = new Set(); // Usamos un Set para evitar duplicados
-        while (numeros.size < 99) {
-            const numero = Math.floor(Math.random() * 99) + 1; // Genera números entre 1 y 99
+        while (numeros.size < 90) {
+            const numero = Math.floor(Math.random() * 90) + 1; // Genera números entre 1 y 99
             numeros.add(numero); // Agrega el número al Set
         }
         bolasAleatorias = Array.from(numeros); // Convertimos el Set en un array
@@ -204,9 +238,9 @@ let $bingo = (function () {
         let tiempoIntervalo = parseInt(document.getElementById('segundos').value) * 1000; // Convertir segundos a milisegundos
     
         function mostrarBola() {
-            if (index < 99) {
+            if (index < 90) {
                 sacarSiguienteBola();
-                contenido += bolasSacadas[index] + (index < 98 ? "," : ""); // Evita una coma al final.
+                contenido += bolasSacadas[index] + (index < 90 ? "," : ""); // Evita una coma al final.
                 contenedor.innerHTML = contenido; // Actualiza el contenido
     
                 index++;
