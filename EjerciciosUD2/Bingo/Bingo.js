@@ -120,27 +120,7 @@ let $bingo = (function () {
     }
 
     function comprobarNumeroNoHumano() {
-        // Seleccionar todos los inputs dentro de los divs carton1 y carton2
-        let inputsCarton1 = document.querySelectorAll("#cartones #carton1 input");
-        let inputsCarton2 = document.querySelectorAll("#cartones #carton2 input");
-    
-        // Función para marcar el fondo del input
-        function marcarNumero(valor, inputs) {
-            inputs.forEach(input => {
-                let id = input.id;
-                let inputValue = parseInt(input.value);
-                if (bolasSacadas.some(num => num === inputValue)) {
-                    input.style.backgroundColor = 'lightgreen'; // Color para los números ya sacados
-                } else {
-                    input.style.backgroundColor = ''; // Restaurar color por defecto
-                }
-            });
-        }
-    
-        // Llamar la función para ambos cartones cuando se saque una nueva bola
-        function actualizarCartones() {
-            marcarNumero(bolasSacadas, inputsCarton1);
-            marcarNumero(bolasSacadas, inputsCarton2);
+      
         }
 
     function generarNumeroRango(min, max) {
