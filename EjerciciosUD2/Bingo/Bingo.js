@@ -3,14 +3,20 @@ let $bingo = (function () {
     let cartones = ["carton1", "carton2", "carton3"];
     let datosMarcador = ["jugador1", "jugador2", "jugador3"];
     let bolasSacadas = [];
-
+    let bolasAleatorias=[];
 
     function iniciarJuego() {
         generarCartones();
+        indicarValorHumano();
+        generarNumerosAleatorios();
+        sacarSiguienteBola()
+        pintarResumenBolas();
     }
 
     function sacarSiguienteBola() {
-
+        if (bolasAleatorias.length > bolasSacadas.length) {
+            bolasSacadas.push(bolasAleatorias[bolasSacadas.length]);
+        }
     }
 
     function indicarValorHumano() {
@@ -37,34 +43,55 @@ let $bingo = (function () {
         cartones[0] = pintarAsteriscos(cartones[0]);
         cartones[1] = pintarAsteriscos(cartones[1]);
         cartones[2] = pintarAsteriscos(cartones[2]);
-        //carton1
+
+        // carton1
         let contenido = ``;
         for (let i = 0; i < cartones[0].length; i++) {
             contenido += '<div id="fila">';
             for (let j = 0; j < 3; j++) {
-                contenido += '<div id="columna" >' + cartones[0][i][j] + '</div>';
+                const id = `carton1-fila${i}-col${j}`;
+                const name = `carton1`;
+                const value = cartones[0][i][j];
+                contenido += `
+                    <div id="columna">
+                        <input type="button" id="${id}" name="${name}" value="${value}">
+                    </div>`;
             }
             contenido += "</div>";
         }
         let contenedor = document.getElementById('carton1');
         contenedor.innerHTML = contenido;
-        //carton 2
+
+        // carton2
         contenido = ``;
         for (let i = 0; i < cartones[1].length; i++) {
             contenido += '<div id="fila">';
             for (let j = 0; j < 3; j++) {
-                contenido += '<div id="columna">' + cartones[1][i][j] + '</div>';
+                const id = `carton2-fila${i}-col${j}`;
+                const name = `carton2`;
+                const value = cartones[1][i][j];
+                contenido += `
+                    <div id="columna">
+                        <input type="button" id="${id}" name="${name}" value="${value}">
+                    </div>`;
             }
             contenido += "</div>";
         }
         contenedor = document.getElementById('carton2');
         contenedor.innerHTML = contenido;
-        //carton 3
+
+        // carton3
         contenido = ``;
         for (let i = 0; i < cartones[2].length; i++) {
             contenido += '<div id="fila">';
             for (let j = 0; j < 3; j++) {
-                contenido += '<div id="columna">' + cartones[2][i][j] + '</div>';
+                const id = `carton3-fila${i}-col${j}`;
+                const name = `carton3`;
+                const value = cartones[2][i][j];
+                contenido += `
+                    <div id="columna">
+                        <input type="button" id="${id}" name="${name}" value="${value}">
+                    </div>`;
             }
             contenido += "</div>";
         }
@@ -78,12 +105,24 @@ let $bingo = (function () {
     }
 
     function comprobarNumeroNoHumano() {
-
+           
+        
     }
 
     function generarNumeroRango(min, max) {
         return parseInt(Math.floor(Math.random() * (max - min + 1)) + min);
     }
+
+
+    function generarNumerosAleatorios() {
+        const numeros = new Set(); // Usamos un Set para evitar duplicados
+        while (numeros.size < 99) {
+            const numero = Math.floor(Math.random() * 99) + 1; // Genera números entre 1 y 99
+            numeros.add(numero); // Agrega el número al Set
+        }
+        bolasAleatorias = Array.from(numeros); // Convertimos el Set en un array
+    }
+
 
     function artualizarMarcadores() {
 
@@ -157,8 +196,25 @@ let $bingo = (function () {
         return carton;
     }
 
+    
     function pintarResumenBolas() {
-
+        let contenido = "";
+        let contenedor = document.getElementById('bolas');
+        let index = 0;
+        let tiempoIntervalo = parseInt(document.getElementById('segundos').value) * 1000; // Convertir segundos a milisegundos
+    
+        function mostrarBola() {
+            if (index < 99) {
+                sacarSiguienteBola();
+                contenido += bolasSacadas[index] + (index < 98 ? "," : ""); // Evita una coma al final.
+                contenedor.innerHTML = contenido; // Actualiza el contenido
+    
+                index++;
+                setTimeout(mostrarBola, tiempoIntervalo); // Utiliza el intervalo del botón en milisegundos
+            }
+        }
+    
+        mostrarBola(); // Llamada inicial para comenzar la animación
     }
 
     function pintarMarcador() {
