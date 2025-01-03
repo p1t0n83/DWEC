@@ -47,11 +47,35 @@ let $bingo = (function () {
             }
         });
     }
-
+     
     function cantarLineaHumano() {
-
-        actualizarMarcadores()
+        document.getElementById("linea").addEventListener("click", function (event) {
+            if (event.target.tagName === "BUTTON") {
+                let lineasSi = [0, 0, 0];  // Array para contar líneas completas
+                    const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
+                    const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
+    
+                    // Iterar sobre cada fila y verificar si hay una línea completa
+                    for (let i = 0; i < 3; i++) {
+                        let filaCompletada = true;
+                        for (let f = 0; f < 3; f++) {
+                            if (!inputs[i * 3 + f].style.backgroundColor === "lightblue") {
+                                filaCompletada ++;
+                                break;
+                            }
+                        }
+                        if (filaCompletada==9) {
+                            lineasSi[i]++;
+                        }
+                    }
+              
+                
+                // Actualizar el marcador solo si se han completado líneas
+                actualizarMarcadores();
+            }
+        });
     }
+    
     function cantarBingoHumano() {
 
         actualizarMarcadores()
@@ -136,7 +160,7 @@ let $bingo = (function () {
 
 
     function verificarCartonesNoHumanos() {
-        
+
        actualizarMarcadores()
     }
 
