@@ -1,9 +1,14 @@
 let $bingo = (function () {
 
     let cartones = ["carton1", "carton2", "carton3"];
-    let datosMarcador = ["jugador1", "jugador2", "jugador3"];
+    let datosMarcador = [
+        { jugador: "jugador1", lineas: 0, bingos: 0 },
+        { jugador: "jugador2", lineas: 0, bingos: 0 },
+        { jugador: "jugador3", lineas: 0, bingos: 0 }
+    ];
+
     let bolasSacadas = [];
-    let bolasAleatorias=[];
+    let bolasAleatorias = [];
 
     function iniciarJuego() {
         generarCartones();
@@ -11,43 +16,56 @@ let $bingo = (function () {
         generarNumerosAleatorios();
         sacarSiguienteBola();
         pintarResumenBolas();
-        
+        marcarAsteriscos();
+        pintarMarcador();
+        cantarLineaHumano();
+        cantarBingoHumano();
     }
 
     function sacarSiguienteBola() {
         if (bolasAleatorias.length > bolasSacadas.length) {
             bolasSacadas.push(bolasAleatorias[bolasSacadas.length]);
+            comprobarNumeroNoHumano();
+            saberGanado();
         }
     }
 
     function indicarValorHumano() {
-        document.getElementById("carton3").addEventListener("click", function(event) {
+        document.getElementById("carton3").addEventListener("click", function (event) {
             if (event.target.tagName === "INPUT") {
                 let id = event.target.id; // Captura el ID del input
                 let valor = parseInt(event.target.value); // Captura el valor del input y lo convierte a número
-    
+
                 console.log(id, valor);
-                
+
                 // Verificar si el valor está en bolasSacadas
-                if (bolasSacadas.some(num => num === valor)) { 
-                    event.target.style.backgroundColor = 'lightgreen';
+                if (bolasSacadas.some(num => num === valor)) {
+                    event.target.style.backgroundColor = 'lightblue';
                 } else {
-                   
+
                 }
             }
         });
     }
 
     function cantarLineaHumano() {
-
+       
     }
-
     function cantarBingoHumano() {
 
     }
-
     function saberGanado() {
-
+        let ganador = false; // Inicializar ganador como falso
+    
+        // Condiciones para ganar, por ejemplo, basado en las líneas completadas
+        if (datosMarcador[2].lineas >= 3) { // Suponiendo que se necesita al menos 3 líneas para ganar
+            ganador = true;
+        }
+    
+        // Aquí puedes agregar otras condiciones específicas para determinar la victoria
+        // como líneas horizontales, verticales, diagonales, etc.
+    
+        return ganador;
     }
 
     //privados
@@ -116,12 +134,27 @@ let $bingo = (function () {
 
 
     function verificarCartonesNoHumanos() {
-
+       
     }
 
     function comprobarNumeroNoHumano() {
-      
-        }
+        const ultimoNumero = bolasSacadas[bolasSacadas.length - 1]; // Obtener el último número sacado
+        if (!ultimoNumero) return; // Salir si no hay número
+
+        const cartonesNoHumanos = ["carton1", "carton2"];
+
+        cartonesNoHumanos.forEach(cartonId => {
+            const carton = document.getElementById(cartonId); // Obtener el elemento del cartón
+            const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
+
+            // Recorrer los inputs y verificar si el valor coincide
+            for (let input of inputs) {
+                if (parseInt(input.value) === ultimoNumero) {
+                    input.style.backgroundColor = "lightblue"; // Cambiar el color de fondo
+                }
+            }
+        });
+    }
 
     function generarNumeroRango(min, max) {
         return parseInt(Math.floor(Math.random() * (max - min + 1)) + min);
@@ -138,9 +171,11 @@ let $bingo = (function () {
     }
 
 
-    function artualizarMarcadores() {
-
+    function actualizarMarcadores() {
+        // Llama directamente a pintarMarcador porque sabemos que hay cambios
+        pintarMarcador();
     }
+    
 
     //apoyo
     function pintarCarton() {
@@ -210,29 +245,54 @@ let $bingo = (function () {
         return carton;
     }
 
-    
+
     function pintarResumenBolas() {
+
         let contenido = "";
         let contenedor = document.getElementById('bolas');
         let index = 0;
         let tiempoIntervalo = parseInt(document.getElementById('segundos').value) * 1000; // Convertir segundos a milisegundos
-    
+
         function mostrarBola() {
             if (index < 90) {
                 sacarSiguienteBola();
                 contenido += bolasSacadas[index] + (index < 90 ? "," : ""); // Evita una coma al final.
                 contenedor.innerHTML = contenido; // Actualiza el contenido
-    
                 index++;
                 setTimeout(mostrarBola, tiempoIntervalo); // Utiliza el intervalo del botón en milisegundos
             }
         }
-    
+
         mostrarBola(); // Llamada inicial para comenzar la animación
     }
 
-    function pintarMarcador() {
+    function marcarAsteriscos() {
+        const ultimoNumero = bolasSacadas[bolasSacadas.length - 1]; // Obtener el último número sacado
+        if (!ultimoNumero) return; // Salir si no hay número
 
+        const cartones = ["carton1", "carton2", "carton3"];
+
+        cartones.forEach(cartonId => {
+            const carton = document.getElementById(cartonId); // Obtener el elemento del cartón
+            const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
+
+            // Recorrer los inputs y verificar si el valor coincide
+            for (let input of inputs) {
+                if (input.value == "*") {
+                    input.style.backgroundColor = "lightblue"; // Cambiar el color de fondo
+                }
+            }
+        });
+    }
+
+
+    function pintarMarcador() {
+        let contenido = "";
+        let contenedor = document.getElementById('marcador');
+        for (let jugador of datosMarcador) {
+            contenido += jugador["jugador"] + ":" + " Lineas:" + jugador["lineas"] + " Bingos:" + jugador["bingos"] + "<br>"; // Evita una coma al final.
+        }
+        contenedor.innerHTML = contenido;
     }
 
     return { iniciarJuego };
