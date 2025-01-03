@@ -49,10 +49,12 @@ let $bingo = (function () {
     }
 
     function cantarLineaHumano() {
-       
+
+        actualizarMarcadores()
     }
     function cantarBingoHumano() {
 
+        actualizarMarcadores()
     }
     function saberGanado() {
         let ganador = false; // Inicializar ganador como falso
@@ -134,7 +136,8 @@ let $bingo = (function () {
 
 
     function verificarCartonesNoHumanos() {
-       
+        
+       actualizarMarcadores()
     }
 
     function comprobarNumeroNoHumano() {
