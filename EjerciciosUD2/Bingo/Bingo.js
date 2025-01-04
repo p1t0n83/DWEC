@@ -26,6 +26,7 @@ let $bingo = (function () {
         if (bolasAleatorias.length > bolasSacadas.length) {
             bolasSacadas.push(bolasAleatorias[bolasSacadas.length]);
             comprobarNumeroNoHumano();
+            verificarCartonesNoHumanos()
             saberGanado();
         }
     }
@@ -47,10 +48,11 @@ let $bingo = (function () {
             }
         });
     }
+
+
     const lineasSi = [0, 0, 0]; // Estado persistente
     function cantarLineaHumano() {
         document.getElementById("linea").addEventListener("click", function (event) {
-            if (event.target.tagName === "BUTTON") {
                 const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
                 // Iterar sobre cada fila y verificar si hay una línea completa
                 for (let i = 0; i < 3; i++) {
@@ -71,8 +73,7 @@ let $bingo = (function () {
                 // Actualizar el marcador solo si se han completado líneas
                 if (lineasSi.some(l => l > 0)) {  // Verifica si alguna fila fue completada
                     actualizarMarcadores();
-                }
-            }
+                }   
         });
     }
 
@@ -159,11 +160,58 @@ let $bingo = (function () {
     }
 
 
+    
+    const lineasSi1 = [0, 0, 0]; // Estado persistente para carton1
+    const lineasSi2 = [0, 0, 0]; // Estado persistente para carton2
+    
     function verificarCartonesNoHumanos() {
-
-        actualizarMarcadores()
+        // Define los cartones a verificar
+        const cartones = ["carton1", "carton2"];
+        
+        cartones.forEach(cartonId => {
+            const marcadorIndex = cartonId === "carton1" ? 0 : 1;
+    
+            // Iterar sobre cada fila del cartón
+            for (let i = 0; i < 3; i++) {
+                let filaCompletada = true;
+    
+                // Verificar las columnas de la fila actual
+                for (let f = 0; f < 8; f++) {
+                    const inputId = `${cartonId}-fila${f}-col${i}`; // Crear el id del input basado en i y f
+                    const inputElement = document.getElementById(inputId); // Obtener el input por su id
+    
+                    // Si algún input no cumple la condición, la fila no está completa
+                    if (!inputElement || inputElement.style.backgroundColor !== "lightblue") {
+                        filaCompletada = false;
+                        break;
+                    }
+                }
+               if(cartonId=="carton1"){
+                if (filaCompletada && lineasSi1[i] === 0) {
+                    lineasSi1[i]++; 
+                    datosMarcador[marcadorIndex]["lineas"]++; 
+                }
+            }else if(cartonId=="carton2"){
+                if (filaCompletada && lineasSi2[i] === 0) {
+                    lineasSi2[i]++; 
+                    datosMarcador[marcadorIndex]["lineas"]++; 
+                }
+            }
+        }
+        if(cartonId=="carton1"){
+            // Actualizar el marcador si se ha completado alguna línea
+            if (lineasSi1.some(linea => linea > 0)) {
+                actualizarMarcadores();
+            }
+        }else if(cartonId=="carton2"){
+            if (lineasSi2.some(linea => linea > 0)) {
+                actualizarMarcadores();
+            }
+        }
+        });
     }
-
+    
+    
     function comprobarNumeroNoHumano() {
         const ultimoNumero = bolasSacadas[bolasSacadas.length - 1]; // Obtener el último número sacado
         if (!ultimoNumero) return; // Salir si no hay número
