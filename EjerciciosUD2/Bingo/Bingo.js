@@ -1,7 +1,7 @@
 let $bingo = (function () {
 
     let cartones = ["carton1", "carton2", "carton3"];
-    let datosMarcador = [
+    const datosMarcador = [
         { jugador: "jugador1", lineas: 0, bingos: 0 },
         { jugador: "jugador2", lineas: 0, bingos: 0 },
         { jugador: "jugador3", lineas: 0, bingos: 0 }
@@ -47,50 +47,51 @@ let $bingo = (function () {
             }
         });
     }
-     
+
     function cantarLineaHumano() {
         document.getElementById("linea").addEventListener("click", function (event) {
             if (event.target.tagName === "BUTTON") {
                 let lineasSi = [0, 0, 0];  // Array para contar líneas completas
-                    const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
-                    const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
-    
-                    // Iterar sobre cada fila y verificar si hay una línea completa
-                    for (let i = 0; i < 3; i++) {
-                        let filaCompletada = true;
-                        for (let f = 0; f < 3; f++) {
-                            if (!inputs[i * 3 + f].style.backgroundColor === "lightblue") {
-                                filaCompletada ++;
-                                break;
-                            }
-                        }
-                        if (filaCompletada==9) {
-                            lineasSi[i]++;
+                const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
+                const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
+
+                // Iterar sobre cada fila y verificar si hay una línea completa
+                for (let i = 0; i < 3; i++) {
+                    let filaCompletada = true;
+                    for (let f = 0; f < 8; f++) {
+                        const inputId = `carton3-fila${i}-col${f}`; // Crear el id del input basado en i y f
+                        const inputElement = document.getElementById(inputId); // Obtener el input por su id
+                        if (inputElement && inputElement.style.backgroundColor !== "lightblue") {
+                            filaCompletada = false;
+                            break;
                         }
                     }
-              
-                
+                    if (filaCompletada && lineasSi[i]==0) {
+                        lineasSi[i]++;
+                        datosMarcador["jugador3"]["lineas"]++;
+                    }
+                }
                 // Actualizar el marcador solo si se han completado líneas
                 actualizarMarcadores();
             }
         });
     }
-    
+
     function cantarBingoHumano() {
 
         actualizarMarcadores()
     }
     function saberGanado() {
         let ganador = false; // Inicializar ganador como falso
-    
+
         // Condiciones para ganar, por ejemplo, basado en las líneas completadas
         if (datosMarcador[2].lineas >= 3) { // Suponiendo que se necesita al menos 3 líneas para ganar
             ganador = true;
         }
-    
+
         // Aquí puedes agregar otras condiciones específicas para determinar la victoria
         // como líneas horizontales, verticales, diagonales, etc.
-    
+
         return ganador;
     }
 
@@ -161,7 +162,7 @@ let $bingo = (function () {
 
     function verificarCartonesNoHumanos() {
 
-       actualizarMarcadores()
+        actualizarMarcadores()
     }
 
     function comprobarNumeroNoHumano() {
@@ -202,7 +203,7 @@ let $bingo = (function () {
         // Llama directamente a pintarMarcador porque sabemos que hay cambios
         pintarMarcador();
     }
-    
+
 
     //apoyo
     function pintarCarton() {
