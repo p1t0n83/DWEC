@@ -47,19 +47,16 @@ let $bingo = (function () {
             }
         });
     }
-
+    const lineasSi = [0, 0, 0]; // Estado persistente
     function cantarLineaHumano() {
         document.getElementById("linea").addEventListener("click", function (event) {
             if (event.target.tagName === "BUTTON") {
-                let lineasSi = [0, 0, 0];  // Array para contar líneas completas
                 const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
-                const inputs = carton.getElementsByTagName("input"); // Obtener todos los inputs del cartón
-
                 // Iterar sobre cada fila y verificar si hay una línea completa
                 for (let i = 0; i < 3; i++) {
                     let filaCompletada = true;
                     for (let f = 0; f < 8; f++) {
-                        const inputId = `carton3-fila${i}-col${f}`; // Crear el id del input basado en i y f
+                        const inputId = `carton3-fila${f}-col${i}`; // Crear el id del input basado en i y f
                         const inputElement = document.getElementById(inputId); // Obtener el input por su id
                         if (inputElement && inputElement.style.backgroundColor !== "lightblue") {
                             filaCompletada = false;
@@ -68,11 +65,13 @@ let $bingo = (function () {
                     }
                     if (filaCompletada && lineasSi[i]==0) {
                         lineasSi[i]++;
-                        datosMarcador["jugador3"]["lineas"]++;
+                        datosMarcador[2]["lineas"]++;
                     }
                 }
                 // Actualizar el marcador solo si se han completado líneas
-                actualizarMarcadores();
+                if (lineasSi.some(l => l > 0)) {  // Verifica si alguna fila fue completada
+                    actualizarMarcadores();
+                }
             }
         });
     }
