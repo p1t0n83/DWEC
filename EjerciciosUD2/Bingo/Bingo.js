@@ -53,34 +53,55 @@ let $bingo = (function () {
     const lineasSi = [0, 0, 0]; // Estado persistente
     function cantarLineaHumano() {
         document.getElementById("linea").addEventListener("click", function (event) {
-                const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
-                // Iterar sobre cada fila y verificar si hay una línea completa
-                for (let i = 0; i < 3; i++) {
-                    let filaCompletada = true;
-                    for (let f = 0; f < 8; f++) {
-                        const inputId = `carton3-fila${f}-col${i}`; // Crear el id del input basado en i y f
-                        const inputElement = document.getElementById(inputId); // Obtener el input por su id
-                        if (inputElement && inputElement.style.backgroundColor !== "lightblue") {
-                            filaCompletada = false;
-                            break;
-                        }
-                    }
-                    if (filaCompletada && lineasSi[i]==0) {
-                        lineasSi[i]++;
-                        datosMarcador[2]["lineas"]++;
+            const carton = document.getElementById("carton3"); // Obtener el elemento del cartón
+            // Iterar sobre cada fila y verificar si hay una línea completa
+            for (let i = 0; i < 3; i++) {
+                let filaCompletada = true;
+                for (let f = 0; f < 8; f++) {
+                    const inputId = `carton3-fila${f}-col${i}`; // Crear el id del input basado en i y f
+                    const inputElement = document.getElementById(inputId); // Obtener el input por su id
+                    if (inputElement && inputElement.style.backgroundColor !== "lightblue") {
+                        filaCompletada = false;
+                        break;
                     }
                 }
-                // Actualizar el marcador solo si se han completado líneas
-                if (lineasSi.some(l => l > 0)) {  // Verifica si alguna fila fue completada
-                    actualizarMarcadores();
-                }   
+                if (filaCompletada && lineasSi[i] == 0) {
+                    lineasSi[i]++;
+                    datosMarcador[2]["lineas"]++;
+                }
+            }
+            // Actualizar el marcador solo si se han completado líneas
+            if (lineasSi.some(l => l > 0)) {  // Verifica si alguna fila fue completada
+                actualizarMarcadores();
+            }
         });
     }
 
     function cantarBingoHumano() {
+        document.getElementById("bingo").addEventListener("click", function (event) {
+            let bingo = true;
+            // Iterar sobre cada fila del cartón
+            for (let i = 0; i < 3; i++) {
+                // Verificar las columnas de la fila actual
+                for (let f = 0; f < 8; f++) {
+                    const inputId = `carton3-fila${f}-col${i}`; // Crear el id del input basado en i y f
+                    const inputElement = document.getElementById(inputId); // Obtener el input por su id
 
-        actualizarMarcadores()
-    }
+                    // Si algún input no cumple la condición, la fila no está completa
+                    if (!inputElement || inputElement.style.backgroundColor !== "lightblue") {
+                        bingo = false;
+                        break;
+                    }
+                }
+            }
+                // Actualizar el marcador si se ha completado alguna línea
+                if (bingo) {
+                    alert("Bingo del jugador 1")
+                    actualizarMarcadores();
+                }
+        });
+            }
+
     function saberGanado() {
         let ganador = false; // Inicializar ganador como falso
 
@@ -160,58 +181,99 @@ let $bingo = (function () {
     }
 
 
-    
+
     const lineasSi1 = [0, 0, 0]; // Estado persistente para carton1
     const lineasSi2 = [0, 0, 0]; // Estado persistente para carton2
-    
-    function verificarCartonesNoHumanos() {
+    function verificarLineasNoHumano() {
         // Define los cartones a verificar
         const cartones = ["carton1", "carton2"];
-        
+
         cartones.forEach(cartonId => {
             const marcadorIndex = cartonId === "carton1" ? 0 : 1;
-    
+
             // Iterar sobre cada fila del cartón
             for (let i = 0; i < 3; i++) {
                 let filaCompletada = true;
-    
+
                 // Verificar las columnas de la fila actual
                 for (let f = 0; f < 8; f++) {
                     const inputId = `${cartonId}-fila${f}-col${i}`; // Crear el id del input basado en i y f
                     const inputElement = document.getElementById(inputId); // Obtener el input por su id
-    
+
                     // Si algún input no cumple la condición, la fila no está completa
                     if (!inputElement || inputElement.style.backgroundColor !== "lightblue") {
                         filaCompletada = false;
                         break;
                     }
                 }
-               if(cartonId=="carton1"){
-                if (filaCompletada && lineasSi1[i] === 0) {
-                    lineasSi1[i]++; 
-                    datosMarcador[marcadorIndex]["lineas"]++; 
+                if (cartonId == "carton1") {
+                    if (filaCompletada && lineasSi1[i] === 0) {
+                        lineasSi1[i]++;
+                        datosMarcador[marcadorIndex]["lineas"]++;
+                    }
+                } else if (cartonId == "carton2") {
+                    if (filaCompletada && lineasSi2[i] === 0) {
+                        lineasSi2[i]++;
+                        datosMarcador[marcadorIndex]["lineas"]++;
+                    }
                 }
-            }else if(cartonId=="carton2"){
-                if (filaCompletada && lineasSi2[i] === 0) {
-                    lineasSi2[i]++; 
-                    datosMarcador[marcadorIndex]["lineas"]++; 
+            }
+            if (cartonId == "carton1") {
+                // Actualizar el marcador si se ha completado alguna línea
+                if (lineasSi1.some(linea => linea > 0)) {
+                    actualizarMarcadores();
+                }
+            } else if (cartonId == "carton2") {
+                if (lineasSi2.some(linea => linea > 0)) {
+                    actualizarMarcadores();
                 }
             }
-        }
-        if(cartonId=="carton1"){
-            // Actualizar el marcador si se ha completado alguna línea
-            if (lineasSi1.some(linea => linea > 0)) {
-                actualizarMarcadores();
-            }
-        }else if(cartonId=="carton2"){
-            if (lineasSi2.some(linea => linea > 0)) {
-                actualizarMarcadores();
-            }
-        }
         });
     }
-    
-    
+
+
+
+    function verificarBingosNoHumanos() {
+        const cartones = ["carton1", "carton2"];
+        cartones.forEach(cartonId => {
+            const marcadorIndex = cartonId === "carton1" ? 0 : 1;
+            let bingo = true;
+            // Iterar sobre cada fila del cartón
+            for (let i = 0; i < 3; i++) {
+                // Verificar las columnas de la fila actual
+                for (let f = 0; f < 8; f++) {
+                    const inputId = `${cartonId}-fila${f}-col${i}`; // Crear el id del input basado en i y f
+                    const inputElement = document.getElementById(inputId); // Obtener el input por su id
+
+                    // Si algún input no cumple la condición, la fila no está completa
+                    if (!inputElement || inputElement.style.backgroundColor !== "lightblue") {
+                        bingo = false;
+                        break;
+                    }
+                }
+            }
+            if (cartonId == "carton1") {
+                // Actualizar el marcador si se ha completado alguna línea
+                if (bingo) {
+                    alert("Bingo del jugador 1");
+                    actualizarMarcadores();
+                }
+            } else if (cartonId == "carton2") {
+                if (bingo) {
+                    alert("Bingo del jugador 2");
+                    actualizarMarcadores();
+                }
+            }
+        });
+    }
+
+
+    function verificarCartonesNoHumanos() {
+        verificarLineasNoHumano();
+        verificarBingosNoHumanos();
+    }
+
+
     function comprobarNumeroNoHumano() {
         const ultimoNumero = bolasSacadas[bolasSacadas.length - 1]; // Obtener el último número sacado
         if (!ultimoNumero) return; // Salir si no hay número
