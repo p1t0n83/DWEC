@@ -20,6 +20,7 @@ let $bingo = (function () {
         pintarMarcador();
         cantarLineaHumano();
         cantarBingoHumano();
+        saberGanado('carton1', 'carton2', 'carton3');
     }
 
     function sacarSiguienteBola() {
@@ -94,26 +95,26 @@ let $bingo = (function () {
                     }
                 }
             }
-                // Actualizar el marcador si se ha completado alguna línea
-                if (bingo) {
-                    alert("Bingo del jugador 1")
-                    actualizarMarcadores();
-                }
-        });
+            // Actualizar el marcador si se ha completado alguna línea
+            if (bingo) {
+                 actualizarMarcadores();
+                alert("Bingo del jugador 3")
             }
+        });
+    }
 
-    function saberGanado() {
-        let ganador = false; // Inicializar ganador como falso
+    function saberGanado(carton1, carton2, carton3) {
+        const esBingo = (carton) => {
+            // Comprueba si todos los inputs del cartón tienen el fondo "lightblue"
+            return carton.every(input => input.style.backgroundColor === "lightblue");
+        };
 
-        // Condiciones para ganar, por ejemplo, basado en las líneas completadas
-        if (datosMarcador[2].lineas >= 3) { // Suponiendo que se necesita al menos 3 líneas para ganar
-            ganador = true;
+        // Verifica cada cartón
+        if (esBingo(carton1) || esBingo(carton2) || esBingo(carton3)) {
+            return true; // Detener el juego porque hay un ganador
         }
 
-        // Aquí puedes agregar otras condiciones específicas para determinar la victoria
-        // como líneas horizontales, verticales, diagonales, etc.
-
-        return ganador;
+        return false; // No hay ganador aún
     }
 
     //privados
