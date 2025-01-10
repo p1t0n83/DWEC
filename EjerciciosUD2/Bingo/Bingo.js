@@ -20,7 +20,6 @@ let $bingo = (function () {
         pintarMarcador();
         cantarLineaHumano();
         cantarBingoHumano();
-        saberGanado('carton1', 'carton2', 'carton3');
     }
 
     function sacarSiguienteBola() {
@@ -97,25 +96,28 @@ let $bingo = (function () {
             }
             // Actualizar el marcador si se ha completado alguna línea
             if (bingo) {
-                 actualizarMarcadores();
+                actualizarMarcadores();
                 alert("Bingo del jugador 3")
             }
         });
     }
 
-    function saberGanado(carton1, carton2, carton3) {
-        const esBingo = (carton) => {
+    function saberGanado() {
+        const cartones = ['carton1', 'carton2', 'carton3'];
+
+        for (const carton of cartones) {
+            // Obtiene todos los inputs del cartón actual
+            const inputs = document.querySelectorAll(`#${carton} input`);
+
             // Comprueba si todos los inputs del cartón tienen el fondo "lightblue"
-            return carton.every(input => input.style.backgroundColor === "lightblue");
-        };
-
-        // Verifica cada cartón
-        if (esBingo(carton1) || esBingo(carton2) || esBingo(carton3)) {
-            return true; // Detener el juego porque hay un ganador
+            const esGanador = Array.from(inputs).every(input => input.style.backgroundColor === "lightblue");
+            if (esGanador) {
+                return true; // Hay un ganador, se detiene el juego
+            }
         }
-
         return false; // No hay ganador aún
     }
+
 
     //privados
     function generarCartones() {
@@ -439,9 +441,5 @@ let $bingo = (function () {
 
 
 window.addEventListener("load", function () {
-
     $bingo.iniciarJuego();
-
-
-
 });
