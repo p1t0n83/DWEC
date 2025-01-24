@@ -1,0 +1,20 @@
+/* css hecho por chati*/
+.tablero {
+    display: grid;
+    grid-template-columns: repeat(3, 50px);
+    grid-gap: 5px;
+  }
+  
+  .tablero button {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .tablero button:hover{
+     background-color: gray;
+
+  }
