@@ -10,18 +10,24 @@ function Lista() {
         return (
             <ul>
                 {tareas.filter(t => t.estado === filtro || filtro === 'Todas').map((t, index) => (
-                    <Tarea key={index} nombre={t.nombre} estado={t.estado} cambiarEstado={()=>cambiarEstado(index)} borrarTarea={()=>borrarTarea(index)} />
+                    <Tarea key={index}
+                        nombre={t.nombre}
+                        estado={t.estado}
+                        cambiarEstado={() => cambiarEstado(index)}
+                        borrarTarea={() => borrarTarea(index)} />
                 ))}
             </ul>
         );
     };
 
-  
+
     const borrarTarea = (index) => {
-       
+
         const nuevasTareas = tareas.filter((tarea, i) => i !== index);
         setTareas(nuevasTareas);
     }
+
+
     const cambiarEstado = (index) => {
         const nuevasTareas = tareas.map((tarea, i) => {
             if (i === index) {
