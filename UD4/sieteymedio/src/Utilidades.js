@@ -45,16 +45,19 @@ function barajaCartas() {
     return baraja.sort((a, b) => Math.random() - 0.5);
 }
 
-function sumarCartas(...cartas) {
+function sumarCartas(cartas) {
     let suma = 0;
-    if (cartas > 0) {
+    if (cartas) {
         cartas.forEach(carta => {
             suma += carta.valor;
+
         });
         return suma;
     } else {
         return 0;
+
     }
+
 }
 
 function recuperarCarta(id) {
