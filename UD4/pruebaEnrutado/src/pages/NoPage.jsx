@@ -1,5 +1,6 @@
 function NoPage() {
-    return (<><h1>No hay pagina</h1></>)
+    return (<>
+        <h1>Página de ruta invalida</h1>
+    </>)
 }
-
-export default NoPage
+export default NoPage;
