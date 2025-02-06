@@ -7,6 +7,7 @@ function AppMenu() {
             <li><Link to="/">Inicio</Link></li>
             <li><Link to="/pacientes">Pacientes</Link></li>
             <li><Link to="/usuarios">Usuarios</Link></li>
+            <li><Link to="/expedientes">Expedientes</Link></li>
         </ul>
     </nav>);
 }
