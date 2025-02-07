@@ -1,18 +1,16 @@
-function Paciente({ key, nombre, email, telefono, fechanacimiento, sexo, direccion, seguroMedico }) {
+function Paciente({ nombre, email, telefono, fechaNacimiento, sexo, direccion, seguroMedico }) {
     return (
         <>
-            <div>
-                <div className="row align-items-start">
-                    <div className="col">Paciente</div>
-                    <div className="col">Telefono</div>
-                    <div className="col">Seguro Medico</div>
-                </div>
-                <div className="row align-items-start">
-                    <div className="col">{nombre}</div>
-                    <div className="col">{telefono}</div>
-                    <div className="col"> {seguroMedico}</div>
-                </div>
-            </div></>
+
+            <div className='row align-items-center py-2 px-3 border-bottom'>
+                <div className="col">{nombre}</div>
+                <div className="col">{telefono}</div>
+                <div className="col"> {seguroMedico}</div>
+                <div className="col"> {email}</div>
+                <div className="col"> {fechaNacimiento}</div>
+                <div className="col"> {direccion}</div>
+            </div>
+        </>
     );
 }
 export default Paciente;
