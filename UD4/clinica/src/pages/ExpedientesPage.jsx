@@ -6,22 +6,23 @@ function ExpedientesPage() {
     const [pacientes, setPacientes] = useState([]);
 
     useEffect(() => {
+        const cargar = async () => {
+            try {
+                let paciente = await $negocio.obtenerPacientes();
+                setPacientes(paciente);
+            } catch (error) {
+                console.error(error);
+            }
+        }
         cargar();
     }, []);
 
-    const cargar = async () => {
-        let paciente = $negocio.obtenerPacientes();
-        paciente.then(result => {
-            setPacientes(result);
-        }).catch(error => {
-            setPacientes([]);
-            console.error("no se cargaron los pacientes");
-        });
 
-    }
+
+
     return (
         <>
-            {console.log(pacientes)}
+
             <div className="container mt-4">
                 <h1 className="text-center mb-4 text-primary">Listado de Pacientes</h1>
 
