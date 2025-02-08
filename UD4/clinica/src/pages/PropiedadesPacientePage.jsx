@@ -19,18 +19,29 @@ function PropiedadesPacientePage() {
   // Cargar la información del paciente si el ID está presente
   useEffect(() => {
     const cargarPaciente = async (id) => {
-      try {
-        const pacienteData = await $negocio.obtenerPaciente(id); // Cargar los datos del paciente usando el ID
-        setPaciente(pacienteData);
-      } catch (error) {
-        console.error("Error al cargar paciente:", error);
-        setError("Error al cargar los datos del paciente.");
+      if (id && id !== "0") {
+        try {
+          const pacienteData = await $negocio.obtenerPaciente(id); // Cargar los datos del paciente usando el ID
+          setPaciente(pacienteData);
+        } catch (error) {
+          console.error("Error al cargar paciente:", error);
+          setError("Error al cargar los datos del paciente.");
+        }
+      } else {
+        // Si el id es 0 o no está presente, mantenemos los valores vacíos
+        setPaciente({
+          id: "",
+          nombre: "",
+          telefono: "",
+          email: "",
+          direccion: "",
+          fechaNacimiento: "",
+          seguroMedico: "",
+        });
       }
     };
 
-    if (id) {
-      cargarPaciente(id); // Solo cargar los datos si hay un id
-    }
+    cargarPaciente(id); // Cargar paciente o dejar campos vacíos
   }, [id]);
 
   // Manejar los cambios en los campos del formulario
@@ -46,11 +57,11 @@ function PropiedadesPacientePage() {
   const manejarEnvio = async (e) => {
     e.preventDefault();
     try {
-      if (id) {
+      if (id && id !== "0") {
         // Si hay ID, actualizar el paciente
         await $negocio.actualizarPaciente(paciente);
       } else {
-        // Si no hay ID, crear un nuevo paciente
+        // Si no hay ID o es 0, crear un nuevo paciente
         await $negocio.crearPaciente(paciente);
       }
       navigate("/pacientes"); // Redirigir al listado de pacientes
@@ -62,7 +73,7 @@ function PropiedadesPacientePage() {
 
   return (
     <div className="container">
-      <h1 className="text-center mb-4 text-primary">{id ? "Editar" : "Crear"} Paciente</h1>
+      <h1 className="text-center mb-4 text-primary">{id && id !== "0" ? "Editar" : "Crear"} Paciente</h1>
       {error && <p className="text-danger">{error}</p>}
       <form onSubmit={manejarEnvio}>
         <div className="mb-3">
@@ -74,7 +85,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="nombre"
             name="nombre"
-            value={paciente.nombre}
+           
             onChange={manejarCambio}
             required
           />
@@ -89,7 +100,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="telefono"
             name="telefono"
-            value={paciente.telefono}
+           
             onChange={manejarCambio}
             required
           />
@@ -104,7 +115,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="email"
             name="email"
-            value={paciente.email}
+          
             onChange={manejarCambio}
             required
           />
@@ -119,7 +130,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="direccion"
             name="direccion"
-            value={paciente.direccion}
+          
             onChange={manejarCambio}
             required
           />
@@ -134,7 +145,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="fechaNacimiento"
             name="fechaNacimiento"
-            value={paciente.fechaNacimiento}
+           
             onChange={manejarCambio}
             required
           />
@@ -149,7 +160,7 @@ function PropiedadesPacientePage() {
             className="form-control"
             id="seguroMedico"
             name="seguroMedico"
-            value={paciente.seguroMedico}
+           
             onChange={manejarCambio}
             required
           />
@@ -157,7 +168,7 @@ function PropiedadesPacientePage() {
 
         <div className="d-flex justify-content-between">
           <button type="submit" className="btn btn-primary">
-            {id ? "Guardar Cambios" : "Crear Paciente"}
+            {id && id !== "0" ? "Guardar Cambios" : "Crear Paciente"}
           </button>
           <button
             type="button"

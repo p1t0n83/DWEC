@@ -43,9 +43,7 @@ function PacientesPage() {
     }
   };
 
-  const CrearPaciente = () => {
-    navegar(`/pacientes/crear`);
-  };
+  
   const EditarPaciente = (id) => {
     navegar(`/pacientes/${id}`); // Redirigir con el id del paciente
   };
@@ -83,7 +81,7 @@ function PacientesPage() {
   return (
     <>
       <h1 className="text-center mb-4 text-primary">Listado de Pacientes</h1>
-      <button onClick={() => CrearPaciente()} className="btn btn-primary mb-3">
+      <button onClick={() => EditarPaciente()} className="btn btn-primary mb-3">
         Crear Paciente
       </button>
 
