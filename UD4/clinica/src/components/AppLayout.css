@@ -1,0 +1,10 @@
+/* AppLayout.css */
+/* Fondo general */
+main {
+    background-color:rgb(12, 94, 37); /* Fondo claro que combina con el resto de la página */
+    min-height: 100vh; /* Asegura que el contenido ocupe toda la altura */
+    padding: 20px;
+  }
+  
+
+  

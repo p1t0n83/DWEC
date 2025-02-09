@@ -1,36 +1,35 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import $negocio from "../core/Negocio";
 import Paciente from "../components/Paciente";
-
+// sexta hoja 5:28 AM, voy a dormir genial, a no ser que sueñe con Carmen... estoy divagando, en fin, pagina de pacientes, los muestra y tal
 function PacientesPage() {
   const navegar = useNavigate();
-  const location = useLocation();
   const [pacientes, setPacientes] = useState([]);
   const [pacientesFiltrados, setPacientesFiltrados] = useState([]);
   const [busqueda, setBusqueda] = useState(""); // Estado para la búsqueda
   const [paginaActual, setPaginaActual] = useState(1); // Página actual
   const [pacientesPorPagina] = useState(5); // Número de pacientes por página
 
+  //lo tipico un useffect para cargar datos, este es para cargar los pàcientes
   useEffect(() => {
     cargar();
-    if (location.state && location.state.nuevoPaciente) {
-      $negocio.crearPaciente(location.state.nuevoPaciente);
-    }
-  }, [location.state]);
+  }, []);
 
+  // el metodo cargar que usa el useeffect, lo podria meter dentro la verdad,pero aqui tampoco esta mal,no hay necesidad de cambiarlo ma g
   const cargar = async () => {
     try {
       let resultado = await $negocio.obtenerPacientes();
       setPacientes(resultado);
-      setPacientesFiltrados(resultado); // Establecemos los pacientes filtrados al cargar
+      setPacientesFiltrados(resultado); // Establecemos los pacientes filtrados al cargar, aunque si no hay filtro muestra todos
     } catch (error) {
+      //si no funciona no carga nada por si acaso
       setPacientes([]);
       setPacientesFiltrados([]);
       console.error("No se cargaron los pacientes", error);
     }
   };
-
+  // borrar paciente, el metodo es llamado desde el hijo que esta en components, asi funcionan todos los borrar y editar , para que lo sepa el que lo lea
   const borrarPaciente = async (id) => {
     if (confirm(`Seguro que quieres borrar al usuario con id ${id} ?`)) {
       try {
@@ -42,18 +41,17 @@ function PacientesPage() {
       }
     }
   };
-
-  
+  //https://www.youtube.com/watch?v=xvFZjo5PgG0 no entrar
   const EditarPaciente = (id) => {
-    navegar(`/pacientes/${id}`); // Redirigir con el id del paciente
+    navegar(`/pacientes/${id}`); // Redirige con el id del paciente
   };
 
-  // Función para filtrar pacientes
+  // esto es para filtrar pacientes, funciona igual que el de expediente al igual que el paginador, asi que no los comentare mucho
   const filtrarPacientes = (evento) => {
     const valorBusqueda = evento.target.value.toLowerCase();
     setBusqueda(valorBusqueda);
 
-    // Filtrar los pacientes por nombre
+    // Filtrar los pacientes por nombre, que no se hacerlo de otra forma( si se pero como que es mas importante que funcione lo demas)
     const pacientesFiltrados = pacientes.filter((paciente) =>
       paciente.nombre.toLowerCase().includes(valorBusqueda)
     );
@@ -76,29 +74,39 @@ function PacientesPage() {
   );
 
   // Calcular el total de páginas
-  const totalPaginas = Math.ceil(pacientesFiltrados.length / pacientesPorPagina);
-
+  const totalPaginas = Math.ceil(
+    pacientesFiltrados.length / pacientesPorPagina
+  );
+  //el que se haya comido el enlace de arriba es un pringao
   return (
     <>
-      <h1 className="text-center mb-4 text-primary">Listado de Pacientes</h1>
-      <button onClick={() => EditarPaciente()} className="btn btn-primary mb-3">
+      <h1 className="text-center mb-4 text-success">Listado de Pacientes</h1>
+
+      <button
+        onClick={() => EditarPaciente(0)}
+        className="btn btn-outline-success mb-3"
+      >
         Crear Paciente
       </button>
 
-      {/* Campo de búsqueda */}
       <div className="mb-3">
         <input
           type="text"
-          className="form-control"
+          className="form-control form-control-sm w-auto"
           placeholder="Buscar por nombre"
           value={busqueda}
           onChange={filtrarPacientes}
+          style={{
+            fontSize: "12px", // mira, he intentado, usar solo bootstrat o como se escriba, pero para ciertas cosas no lo consigo,
+            padding: "5px 8px", //sobretodo para las imagenes, eso , y que limita mucho lo guapa que me podria haber quedado la web
+            height: "30px",
+          }}
         />
       </div>
 
       <div className="container mt-4">
-        <div className="card shadow-lg p-3 border border-2 border-primary rounded">
-          <div className="row bg-light text-dark fw-bold py-2 px-3 border-bottom">
+        <div className="card shadow-lg p-4 border-0 rounded bg-dark">
+          <div className="row bg-dark text-light fw-bold py-2 px-3 border-bottom border-2 border-success">
             <div className="col">Paciente</div>
             <div className="col">Teléfono</div>
             <div className="col">Seguro Médico</div>
@@ -107,7 +115,6 @@ function PacientesPage() {
             <div className="col">Dirección</div>
           </div>
 
-          {/* Mostrar los pacientes filtrados para la página actual */}
           {pacientesPaginaActual.map((paciente) => {
             return (
               <Paciente
@@ -121,17 +128,16 @@ function PacientesPage() {
                 sexo={paciente.sexo}
                 telefono={paciente.telefono}
                 borrarPaciente={borrarPaciente}
-                editarPaciente={EditarPaciente}
+                editarPaciente={EditarPaciente} //aqui le paso los metodos al hijo
               />
             );
           })}
         </div>
       </div>
 
-      {/* Paginador */}
       <div className="pagination justify-content-center mt-3">
         <button
-          className="btn btn-secondary"
+          className="btn btn-outline-success"
           onClick={() => cambiarPagina(paginaActual - 1)}
           disabled={paginaActual === 1}
         >
@@ -141,7 +147,9 @@ function PacientesPage() {
         {Array.from({ length: totalPaginas }, (_, index) => (
           <button
             key={index}
-            className={`btn ${paginaActual === index + 1 ? 'btn-primary' : 'btn-secondary'}`}
+            className={`btn ${
+              paginaActual === index + 1 ? "btn-success" : "btn-outline-success"
+            }`}
             onClick={() => cambiarPagina(index + 1)}
           >
             {index + 1}
@@ -149,7 +157,7 @@ function PacientesPage() {
         ))}
 
         <button
-          className="btn btn-secondary"
+          className="btn btn-outline-success"
           onClick={() => cambiarPagina(paginaActual + 1)}
           disabled={paginaActual === totalPaginas}
         >
@@ -161,5 +169,3 @@ function PacientesPage() {
 }
 
 export default PacientesPage;
-
-

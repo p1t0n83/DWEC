@@ -1,186 +1,202 @@
-import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import $negocio from "../core/Negocio";
-
+import { useState, useEffect } from "react";
+//septima hoja  5:37 AM no se como diego tiene de costumbre hacer esto, un dia le va a dar algo
 function PropiedadesPacientePage() {
-  const { id } = useParams(); // Obtenemos el ID desde la URL
+  //lo mismo que expediente, pillamos elid
+  const { id } = useParams();
+  const navegar = useNavigate();
   const [paciente, setPaciente] = useState({
-    id: "",
+    id: id,
     nombre: "",
-    telefono: "",
-    email: "",
     direccion: "",
+    dni: "",
+    email: "",
     fechaNacimiento: "",
     seguroMedico: "",
+    sexo: "",
+    telefono: "",
   });
-  const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  // Cargar la información del paciente si el ID está presente
   useEffect(() => {
-    const cargarPaciente = async (id) => {
-      if (id && id !== "0") {
+    // Si el id no es 0, intenta obtener los datos del paciente
+    if (id !== "0") {
+      const fetchPaciente = async () => {
         try {
-          const pacienteData = await $negocio.obtenerPaciente(id); // Cargar los datos del paciente usando el ID
+          const pacienteData = await $negocio.obtenerPaciente(id); // Ajusta según tu función de negocio
           setPaciente(pacienteData);
         } catch (error) {
-          console.error("Error al cargar paciente:", error);
-          setError("Error al cargar los datos del paciente.");
+          console.error("Error al obtener los datos del paciente:", error);
         }
-      } else {
-        // Si el id es 0 o no está presente, mantenemos los valores vacíos
-        setPaciente({
-          id: "",
-          nombre: "",
-          telefono: "",
-          email: "",
-          direccion: "",
-          fechaNacimiento: "",
-          seguroMedico: "",
-        });
-      }
-    };
+      };
 
-    cargarPaciente(id); // Cargar paciente o dejar campos vacíos
-  }, [id]);
+      fetchPaciente();
+    }
+  }, [id]); // Este efecto se ejecuta cuando el id cambia
 
-  // Manejar los cambios en los campos del formulario
-  const manejarCambio = (e) => {
-    const { name, value } = e.target;
-    setPaciente((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  // Función para enviar el formulario y guardar los cambios
-  const manejarEnvio = async (e) => {
-    e.preventDefault();
-    try {
-      if (id && id !== "0") {
-        // Si hay ID, actualizar el paciente
-        await $negocio.actualizarPaciente(paciente);
-      } else {
-        // Si no hay ID o es 0, crear un nuevo paciente
-        await $negocio.crearPaciente(paciente);
-      }
-      navigate("/pacientes"); // Redirigir al listado de pacientes
-    } catch (error) {
-      setError("Hubo un error al guardar los datos.");
-      console.error("Error al guardar los datos:", error);
+  // simple, pero elegante, 1 linea, perfecto
+  const crearPaciente = (id) => {
+    if (id === "0") {
+      $negocio.crearPaciente(paciente);
+      reedirigir();
+    } else {
+      $negocio.actualizarPaciente(paciente);
+      reedirigir();
     }
   };
+  // el fucking handleChange, el goat , the king, the fucking best method i west in my live, na mentira , pero es que esta muy bien
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let actualizado = { ...paciente, [name]: value };
+    setPaciente(actualizado);
+  };
+  // lo de siempre
+  const reedirigir = () => {
+    navegar("/pacientes");
+  };
+  // el formulario, es el mismo si se edita o si se crea, solo cambia que sale crear o editar por un ternario
+  const formulario = () => {
+    return (
+      <>
+        <div className="container mt-5">
+          <h1 className="text-center mb-4 text-success">
+            {id === "0" ? "Crear Paciente" : "Editar Paciente"}
+          </h1>
 
-  return (
-    <div className="container">
-      <h1 className="text-center mb-4 text-primary">{id && id !== "0" ? "Editar" : "Crear"} Paciente</h1>
-      {error && <p className="text-danger">{error}</p>}
-      <form onSubmit={manejarEnvio}>
-        <div className="mb-3">
-          <label htmlFor="nombre" className="form-label">
-            Nombre
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="nombre"
-            name="nombre"
-           
-            onChange={manejarCambio}
-            required
-          />
-        </div>
+          <form className="bg-dark p-4 border rounded shadow-sm">
+            <div className="mb-3">
+              <label htmlFor="nombre" className="form-label text-light">
+                Nombre
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-light border-light"
+                id="nombre"
+                name="nombre"
+                value={paciente.nombre}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="dni" className="form-label text-light">
+                DNI
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-light border-light"
+                id="dni"
+                name="dni"
+                value={paciente.dni}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="telefono" className="form-label text-light">
+                Teléfono
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-light border-light"
+                id="telefono"
+                name="telefono"
+                value={paciente.telefono}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label text-light">
+                Email
+              </label>
+              <input
+                type="email"
+                className="form-control bg-dark text-light border-light"
+                id="email"
+                name="email"
+                value={paciente.email}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="direccion" className="form-label text-light">
+                Dirección
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-light border-light"
+                id="direccion"
+                name="direccion"
+                value={paciente.direccion}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label
+                htmlFor="fechaNacimiento"
+                className="form-label text-light"
+              >
+                Fecha de Nacimiento
+              </label>
+              <input
+                type="date"
+                className="form-control bg-dark text-light border-light"
+                id="fechaNacimiento"
+                name="fechaNacimiento"
+                value={paciente.fechaNacimiento}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="seguroMedico" className="form-label text-light">
+                Seguro Médico
+              </label>
+              <input
+                type="text"
+                className="form-control bg-dark text-light border-light"
+                id="seguroMedico"
+                name="seguroMedico"
+                value={paciente.seguroMedico}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="sexo" className="form-label text-light">
+                Sexo
+              </label>
+              <select
+                className="form-control bg-dark text-light border-light"
+                id="sexo"
+                name="sexo"
+                value={paciente.sexo}
+                onChange={handleChange}
+              >
+                <option value="">Seleccionar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
 
-        <div className="mb-3">
-          <label htmlFor="telefono" className="form-label">
-            Teléfono
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="telefono"
-            name="telefono"
-           
-            onChange={manejarCambio}
-            required
-          />
+            <div className="d-flex justify-content-between">
+              <button
+                onClick={() => crearPaciente(id)}
+                className="btn btn-success"
+              >
+                {id === "0" ? "Crear Paciente" : "Guardar Cambios"}
+              </button>
+              <button
+                onClick={() => reedirigir()}
+                className="btn btn-secondary"
+              >
+                Salir
+              </button>
+            </div>
+          </form>
         </div>
+      </>
+    );
+  };
 
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-          
-            onChange={manejarCambio}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="direccion" className="form-label">
-            Dirección
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="direccion"
-            name="direccion"
-          
-            onChange={manejarCambio}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="fechaNacimiento" className="form-label">
-            Fecha de Nacimiento
-          </label>
-          <input
-            type="date"
-            className="form-control"
-            id="fechaNacimiento"
-            name="fechaNacimiento"
-           
-            onChange={manejarCambio}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="seguroMedico" className="form-label">
-            Seguro Médico
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="seguroMedico"
-            name="seguroMedico"
-           
-            onChange={manejarCambio}
-            required
-          />
-        </div>
-
-        <div className="d-flex justify-content-between">
-          <button type="submit" className="btn btn-primary">
-            {id && id !== "0" ? "Guardar Cambios" : "Crear Paciente"}
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => navigate("/pacientes")}
-          >
-            Cancelar
-          </button>
-        </div>
-      </form>
-    </div>
-  );
+  return <>{formulario()}</>;
 }
 
 export default PropiedadesPacientePage;

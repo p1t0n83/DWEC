@@ -1,12 +1,62 @@
-.navegacion {
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
+/* AppMenu.css */
+// voy a serte sincero baki, no se hacer css, lo ha hecho chatgpt
+/* Fondo oscuro y estilo futurista */
+.gambito-header {
+  background-color: #212121; /* Fondo oscuro */
+  color: #fff; /* Texto en blanco */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra sutil */
+}
 
-    ul li {
-        display: inline;
-        padding-right: 10px;
-    }
+/* Logo ajustado a un tamaño mayor */
+.logo {
+  width: 60px; /* Tamaño más grande */
+  height: auto;
+  margin-right: 10px; /* Espacio entre el logo y el texto */
+}
+
+/* Ajuste en el texto del brand (nombre de la clínica) */
+.gambito-logo {
+  font-size: 1.5rem; /* Tamaño de fuente más pequeño */
+  font-family: "Orbitron", sans-serif; /* Fuente futurista */
+  font-weight: bold;
+  color: #32cd32; /* Verde brillante al estilo Gambito */
+  text-shadow: 0 0 8px rgba(50, 205, 50, 0.9), 0 0 15px rgba(50, 205, 50, 0.7); /* Efecto verde brillante */
+}
+
+/* Enlaces del navbar */
+.navbar-nav .nav-link {
+  color: #bbb; /* Gris claro */
+  font-size: 1.1rem;
+  font-family: "Roboto", sans-serif; /* Fuente moderna */
+}
+
+/* Cambio de color al pasar el mouse */
+.navbar-nav .nav-link:hover {
+  color: #32cd32; /* Verde brillante */
+  text-decoration: underline;
+}
+
+/* Botón de hamburguesa */
+.navbar-toggler {
+  border-color: #32cd32; /* Color de la línea del toggle */
+}
+
+/* Cambiar el color del toggle icono */
+.navbar-toggler-icon {
+  background-color: #32cd32; /* Icono de toggle en verde brillante */
+}
+
+/* Fondo para el menú colapsado */
+.navbar-collapse {
+  background-color: #212121; /* Fondo oscuro para el menú */
+}
+
+/* Efecto de hover sobre los elementos del menú */
+.navbar-nav .nav-link:hover {
+  background-color: rgba(
+    50,
+    205,
+    50,
+    0.1
+  ); /* Sutil efecto verde al pasar el mouse */
 }
