@@ -1,6 +1,6 @@
 let longitud = 0;
 do {
-    longitud = parseInt(prompt("Indica el tamaño del triangulo,tiene que ser inpar"));
+    longitud = parseInt(prompt("Indica el tamaño del rombo,tiene que ser inpar"));
 } while (longitud % 2 == 0);
 let rombo = "";
 for (let fila = 0; fila < longitud / 2; fila++) {
