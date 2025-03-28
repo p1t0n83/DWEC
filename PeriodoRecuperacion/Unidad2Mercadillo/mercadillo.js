@@ -93,6 +93,7 @@ let $negocio = function () {
     function filtrarProductosPorCategoria(categoria) {
         let filtrados = [];
         filtrados = productos.filter(producto => producto.categoria == categoria);
+        let contenido = document.getElementById("listaProductos");
         contenido.innerHTML = "";
         contenido.innerHTML += `
     <div id="fila">
