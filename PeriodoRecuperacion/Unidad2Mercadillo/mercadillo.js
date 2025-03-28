@@ -56,11 +56,11 @@ let $negocio = function () {
     function actualizarInventario(nombre, cantidad) {
         productos.forEach(producto => {
             if (producto.nombre == nombre)
-                if (producto.cantidad + cantidad >= 0) {
-                    if (producto.cantidad + cantidad == 0) {
+                if (producto.cantidad + (cantidad) >= 0) {
+                    if (producto.cantidad + (cantidad) == 0) {
                         alert("Se necesita reponer");
-                        producto.cantidad += cantidad;
-                    } else if (producto.cantidad + cantidad > 0) {
+                        producto.cantidad += (cantidad);
+                    } else if (producto.cantidad + (cantidad) > 0) {
                         producto.cantidad += cantidad;
                     }
                 } else {
@@ -74,27 +74,37 @@ let $negocio = function () {
     }
 
     function imprimirInventario() {
-        let impresion = "----------INVENTARIO------------\n";
-        let numeroProducto = 1;
+        let contenido = document.getElementById("listaProductos");
+        contenido.innerHTML = "";
+        contenido.innerHTML += `
+    <div id="fila">
+    <div>Nombre</div>  <div>Categoria</div>  <div>Cantidad</div>  <div>Precio</div>  <div>Total</div> <div>Opciones</div>
+    </div>`;
+
         productos.forEach(producto => {
-            impresion += `
-        ---------------PRODUCTO Nº${numeroProducto}---------------\n
-        Producto: ${producto.nombre}.\n
-        Precio unitario: ${producto.precio}.\n
-        Cantidad: ${producto.cantidad}.\n
-        Categoria de producto: ${producto.categoria}.\n
-        Total: ${producto.cantidad * producto.precio}\n
-        `;
-            numeroProducto++;
+            let fila = `<div id="fila">
+        <div>${producto.nombre}</div>  <div>${producto.categoria}</div>  <div>${producto.cantidad}</div>  <div>${producto.precio}</div>  <div>${producto.cantidad * producto.precio}</div>  <div><button value="${producto.nombre}" id="eliminar">Eliminar</button><button id="editar" value=${producto.nombre}>Editar</button></div>
+        </div>`;
+            contenido.innerHTML += fila;
         });
-        return impresion;
     }
 
 
     function filtrarProductosPorCategoria(categoria) {
         let filtrados = [];
         filtrados = productos.filter(producto => producto.categoria == categoria);
-        return filtrados;
+        contenido.innerHTML = "";
+        contenido.innerHTML += `
+    <div id="fila">
+    <div>Nombre</div>  <div>Categoria</div>  <div>Cantidad</div>  <div>Precio</div>  <div>Total</div> <div>Opciones</div>
+    </div>`;
+
+        filtrados.forEach(producto => {
+            let fila = `<div id="fila">
+        <div>${producto.nombre}</div>  <div>${producto.categoria}</div>  <div>${producto.cantidad}</div>  <div>${producto.precio}</div>  <div>${producto.cantidad * producto.precio}</div>  <div><button value="${producto.nombre}" id="eliminar">Eliminar</button><button id="editar" value=${producto.nombre}>Editar</button></div>
+        </div>`;
+            contenido.innerHTML += fila;
+        });
     }
 
     return {
@@ -107,3 +117,40 @@ let $negocio = function () {
         filtrarProductosPorCategoria
     }
 }();
+
+document.addEventListener("DOMContentLoaded", function () {
+    $negocio.imprimirInventario();
+    document.addEventListener("click", function (event) {
+        event.preventDefault();
+        let boton = event.target.id;
+        if (boton == "eliminar") {
+            let nombre = event.target.value;
+            $negocio.eliminarProducto(nombre);
+            $negocio.imprimirInventario();
+        } else if (boton == "crear") {
+            let nombre = document.getElementById('nombre').value;
+            let precio = document.getElementById('precio').value;
+            let cantidad = document.getElementById('cantidad').value;
+            let categoria = document.getElementById('categoria').value;
+            $negocio.agregarProducto(nombre, cantidad, precio, categoria);
+            $negocio.imprimirInventario();
+        } else if (boton == "editar") {
+            let cantidad = parseInt(prompt("Ingrese la cantidad a cambiar"));
+            let nombre = event.target.value;
+            $negocio.actualizarInventario(nombre, cantidad);
+            $negocio.imprimirInventario();
+        } else if (boton == "filtrar") {
+            let nombre = document.getElementById("filtrado").value;
+            if (nombre == "todos") {
+                $negocio.imprimirInventario();
+            } else if (nombre == "categoria") {
+                let texto = document.getElementById("textoFiltrado");
+                console.log(texto);
+                $negocio.filtrarProductosPorCategoria(texto);
+            } else if (nombre == "nombre") {
+                let texto = document.getElementById("textoFiltrado");
+                $negocio.buscarProducto();
+            }
+        }
+    })
+})

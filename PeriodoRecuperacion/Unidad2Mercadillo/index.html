@@ -20,11 +20,39 @@
     </header>
     <main>
         <h1>Productos</h1>
-
+        <form id="formularioFiltrado" action="">
+            <select id="filtrado">
+                <option value="todos">Todos</option>
+                <option value="nombre">Nombre</option>
+                <option value="categoria">Categoria</option>
+            </select>
+            <input type="text" id="textoFiltrado">
+            <button id="filtrar">Filtrar</button><br>
+        </form>
+        <div id="listaProductos"></div>
     </main>
     <aside>
         <h1>Crear Producto</h1>
 
+        <form id="formularioCreacion" action="">
+            <label for="nombre">
+                <h2>Nombre:</h2><br>
+                <input type="text" id="nombre" name="nombre" minlength="3" required>
+            </label><br>
+            <label for="cantidad">
+                <h2>Cantidad:</h2><br>
+                <input type="number" id="cantidad" name="cantidad" required>
+            </label><br>
+            <label for="precio">
+                <h2>Precio:</h2><br>
+                <input type="number" id="precio" name="precio" required>
+            </label><br>
+            <label for="categoria">
+                <h2>Categoria</h2><br>
+                <input type="text" id="categoria" name="categoria" required>
+            </label><br><br>
+            <button id="crear">Crear objeto</button>
+        </form>
     </aside>
 </body>
 
