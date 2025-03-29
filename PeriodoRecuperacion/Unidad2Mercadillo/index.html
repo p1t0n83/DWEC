@@ -21,13 +21,14 @@
     <main>
         <h1>Productos</h1>
         <form id="formularioFiltrado" action="">
-            <select id="filtrado">
+            <label for="filtrado"><select id="filtrado" name="filtrado">
                 <option value="todos">Todos</option>
                 <option value="nombre">Nombre</option>
                 <option value="categoria">Categoria</option>
-            </select>
-            <input type="text" id="textoFiltrado">
-            <button id="filtrar">Filtrar</button><br>
+            </select></label>
+            <label for="textoFiltrado">Texto<input type="text" name="textoFiltrado" id="textoFiltrado"></label>
+            <button id="filtrar">Filtrar</button>
+            <button id="filtrarPrecio">Filtrar por precio</button><br>
         </form>
         <div id="listaProductos"></div>
     </main>

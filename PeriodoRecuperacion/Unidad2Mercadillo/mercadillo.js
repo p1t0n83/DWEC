@@ -44,13 +44,21 @@ let $negocio = function () {
     }
 
     function buscarProducto(nombre) {
-        let producto = productos.filter(producto => producto.nombre == nombre);
+        let filtrados = [];
+        filtrados = productos.filter(producto => producto.nombre.includes(nombre));
+        let contenido = document.getElementById("listaProductos");
+        contenido.innerHTML = "";
+        contenido.innerHTML += `
+    <div id="fila">
+    <div>Nombre</div>  <div>Categoria</div>  <div>Cantidad</div>  <div>Precio</div>  <div>Total</div> <div>Opciones</div>
+    </div>`;
 
-        if (producto.length > 0) {
-            console.log(producto);
-        } else {
-            alert("No se encontro dicho producto");
-        }
+        filtrados.forEach(producto => {
+            let fila = `<div id="fila">
+        <div>${producto.nombre}</div>  <div>${producto.categoria}</div>  <div>${producto.cantidad}</div>  <div>${producto.precio}</div>  <div>${producto.cantidad * producto.precio}</div>  <div><button value="${producto.nombre}" id="eliminar">Eliminar</button><button id="editar" value=${producto.nombre}>Editar</button></div>
+        </div>`;
+            contenido.innerHTML += fila;
+        });
     }
 
     function actualizarInventario(nombre, cantidad) {
@@ -70,7 +78,21 @@ let $negocio = function () {
     }
 
     function ordenarProductosPorPrecio() {
-        return productos.toSorted((a, b) => { return a.precio - b.precio });
+        let ordenados= [];
+        ordenados = [...productos].sort((a, b) => a.precio - b.precio);
+        let contenido = document.getElementById("listaProductos");
+        contenido.innerHTML = "";
+        contenido.innerHTML += `
+    <div id="fila">
+    <div>Nombre</div>  <div>Categoria</div>  <div>Cantidad</div>  <div>Precio</div>  <div>Total</div> <div>Opciones</div>
+    </div>`;
+
+        ordenados.forEach(producto => {
+            let fila = `<div id="fila">
+        <div>${producto.nombre}</div>  <div>${producto.categoria}</div>  <div>${producto.cantidad}</div>  <div>${producto.precio}</div>  <div>${producto.cantidad * producto.precio}</div>  <div><button value="${producto.nombre}" id="eliminar">Eliminar</button><button id="editar" value=${producto.nombre}>Editar</button></div>
+        </div>`;
+            contenido.innerHTML += fila;
+        });
     }
 
     function imprimirInventario() {
@@ -92,7 +114,7 @@ let $negocio = function () {
 
     function filtrarProductosPorCategoria(categoria) {
         let filtrados = [];
-        filtrados = productos.filter(producto => producto.categoria == categoria);
+        filtrados = productos.filter(producto => producto.categoria.includes(categoria));
         let contenido = document.getElementById("listaProductos");
         contenido.innerHTML = "";
         contenido.innerHTML += `
@@ -142,16 +164,19 @@ document.addEventListener("DOMContentLoaded", function () {
             $negocio.imprimirInventario();
         } else if (boton == "filtrar") {
             let nombre = document.getElementById("filtrado").value;
+            let texto = document.getElementById("textoFiltrado").value;
+
             if (nombre == "todos") {
                 $negocio.imprimirInventario();
-            } else if (nombre == "categoria") {
-                let texto = document.getElementById("textoFiltrado");
+            } else if (nombre == "categoria") {              
                 console.log(texto);
                 $negocio.filtrarProductosPorCategoria(texto);
             } else if (nombre == "nombre") {
-                let texto = document.getElementById("textoFiltrado");
-                $negocio.buscarProducto();
+                let texto = document.getElementById("textoFiltrado").value;
+                $negocio.buscarProducto(texto);
+            } 
+        }else if(boton=="filtrarPrecio"){
+                $negocio.ordenarProductosPorPrecio();
             }
-        }
     })
 })
