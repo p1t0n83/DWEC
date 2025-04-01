@@ -28,12 +28,12 @@ function tirarDados(numeroLados, tiradas) {
 
 
 
-document.addEventListener("DOMContentLoaded",function(){
-    let boton=this.getElementById("tirar");
-    boton.addEventListener("click",function(){
-        let numeroLados = parseInt(prompt("Numero de lados"));
-let tiradas = parseInt(prompt("tiradas"));
+window.addEventListener("load", function () {
+  let boton = this.getElementById("tirar");
+  boton.addEventListener("click", function () {
+    let numeroLados = parseInt(prompt("Numero de lados"));
+    let tiradas = parseInt(prompt("tiradas"));
 
-tirarDados(numeroLados, tiradas);
-    })
+    tirarDados(numeroLados, tiradas);
+  })
 })
