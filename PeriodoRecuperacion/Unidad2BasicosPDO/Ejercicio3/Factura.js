@@ -33,7 +33,7 @@ class Factura {
                 <p><strong>Hora:</strong> ${this.hora}</p>
                 <p><strong>Pagada:</strong> ${this.pagada ? "Sí" : "No"}</p>
                 <h3>Lineas:</h3>
-                <ul>
+                <ul><div class="lineas">
         `;
     
         this.lineas.forEach(linea => {
@@ -47,7 +47,7 @@ class Factura {
         });
     
         impresion += `
-                </ul>
+                </div></ul>
                 <p><strong>Total Artículos:</strong> ${this.numeroArticulos}</p>
                 <p><strong>Importe Total:</strong> ${this.importeTotal.toFixed(2)} €</p>
             </div>
