@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="script.js" type="module"></script>
     <title></title>
-</head>
-<body>
+  </head>
+  <body>
     <form action="">
-             <h1>Crear Factura</h1>
-             <label for="clientenif"><input type="text" name="clientenif" id="clientenif" required></label>
-             <label for="fecha"><input name="fecha" id="fecha" type="date"></label>
-             <label for="hora"><input name="hora" id="hora" type="time"></label>
-             <label for="pagada"><input name="pagada" id="pagada" type="checkbox"></label>
-            <button id="actualizar">Actualizar</button>
-            </form>
-</body>
+      <h1>Crear Factura</h1>
+      <label for="clientenif"
+        ><input type="text" name="clientenif" id="clientenif" required
+      /></label>
+      <label for="fecha"><input name="fecha" id="fecha" type="date" /></label>
+      <label for="hora"><input name="hora" id="hora" type="time" /></label>
+      <label for="pagada"
+        ><input name="pagada" id="pagada" type="checkbox"
+      /></label>
+      <button id="actualizar">Actualizar</button>
+    </form>
+
+    <form action="">
+      <h1>Gestión de Líneas de Factura</h1>
+      <label for="concepto"
+        >Concepto:
+        <input type="text" name="concepto" id="concepto" required /><br />
+      </label>
+      <label for="cantidad"
+        >Cantidad:
+        <input type="number" name="cantidad" id="cantidad" required /><br />
+      </label>
+      <label for="precio"
+        >Precio:
+        <input type="number" name="precio" id="precio" required /><br />
+      </label>
+      <button id="agregarLinea">Agregar Línea</button>
+      <button id="eliminarLinea">Eliminar Última Línea</button>
+    </form>
+
+    <div id="listaFacturas">
+      
+    </div>
+  </body>
 </html>

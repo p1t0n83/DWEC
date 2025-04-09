@@ -26,10 +26,33 @@ class Factura {
     }
 
     imprimirFactura() {
-        let impresion = `NIF del cliente: ${this.clienteNIF}.\n Fecha: ${this.fecha}.\n Hora: ${this.hora}.\n Pagada: ${this.pagada == true ? "Si" : "No"}\n Lineas:\n`;
+        let impresion = `
+            <div>
+                <p><strong>NIF del cliente:</strong> ${this.clienteNIF}</p>
+                <p><strong>Fecha:</strong> ${this.fecha}</p>
+                <p><strong>Hora:</strong> ${this.hora}</p>
+                <p><strong>Pagada:</strong> ${this.pagada ? "Sí" : "No"}</p>
+                <h3>Lineas:</h3>
+                <ul>
+        `;
+    
         this.lineas.forEach(linea => {
-            impresion = `\n Informacion de la linea.\n Concepto: ${linea.concepto}. \n Cantidad: ${linea.cantidad}. \n Precio unitario: ${linea.precioUnitario} \n`;
+            impresion += `
+                <li>
+                    <p><strong>Concepto:</strong> ${linea.concepto}</p>
+                    <p><strong>Cantidad:</strong> ${linea.cantidad}</p>
+                    <p><strong>Precio unitario:</strong> ${linea.precioUnitario}</p>
+                </li>
+            `;
         });
+    
+        impresion += `
+                </ul>
+                <p><strong>Total Artículos:</strong> ${this.numeroArticulos}</p>
+                <p><strong>Importe Total:</strong> ${this.importeTotal.toFixed(2)} €</p>
+            </div>
+        `;
+    
         return impresion;
     }
 
