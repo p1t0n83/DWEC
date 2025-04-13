@@ -40,7 +40,7 @@ class Libro{
     }
 
     generarHTMLEdicion(){
-        let contenedor=document.getElementById("formularioCrearLibro");
+        let contenedor=document.getElementById("formularioEditarLibro");
         let contenido=`
         <form action="">
         <label for="titulo">
