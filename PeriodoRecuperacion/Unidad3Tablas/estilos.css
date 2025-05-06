@@ -1,0 +1,48 @@
+header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #4CAF50;
+    color: white;
+    
+}
+
+
+button {
+    background-color: #2196F3;
+}
+
+
+
+
+
+#tabla {
+    width: 100%;
+    margin: 0 auto;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+#fila {
+    display: flex;
+    flex-direction: row;
+    width: 100%;            /* Añadido para que ocupe todo el ancho */
+}
+
+#columna {
+    margin: 5px;
+    display: flex;          /* Añadido */
+    flex: 1;               /* Añadido para que todas las columnas tengan el mismo ancho */
+
+}
