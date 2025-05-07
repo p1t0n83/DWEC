@@ -1,49 +1,35 @@
+import { validarNombre, validarPassword } from "./funciones.js";
 
-  let guardar=document.getElementById("guardar");
-  guardar.addEventListener("click",function(){
-    
-function validarNombre(valor,callback){
-    let valida=true;
-    for(let i=0;i<valor.length;i++){
-        let char=valor.charAt(i);
-        for(let f=0;f<10;f++){
-            if(f.toString()==char){
-                valida=false;
-                break;
-            }
+const $btnGuardar = document.getElementById("guardar");
+const $inpNombre = document.getElementById("nombre").value;
+const $inpPassword = document.getElementById("password").value;
+const $inpEmail = document.getElementById("email").value;
+const $inpFecha = document.getElementById("nacimiento").value;
+
+$btnGuardar.addEventListener("click", function () {
+
+    validarNombre($inpNombre, (nombreValidado, rechazada) => {
+        if (rechazada) {
+            alert('Error: ' + error);
+            return;
         }
-    }
-    if(valida){
-        callback(valor,null);
-    }else{
-        callback(null,new Error("El nombre no puede contener numeros"));
-    }
-} 
-
-function validarPassword(valor,callback){
-    let validaMayus=true;
-    let validaMinus=true;
-    let validaNum=true;
-    let validaLongitud=true;
-}
-
-function validarEmail(valor,callback){
-
-}
-function validarFecha(valor,callback){
-
-}
-
-let nombre=document.getElementById("nombre").value;
-validarNombre(nombre,(exito,rechazada)=>{
-    if(exito){
-        let password=document.getElementById("password");
-        validarPassword();
-    }else{
-        console.log(rechazada.message);
-        alert('Error: ' + rechazada.message);
-    }
-});
-
-
-  })
+        validarPassword($inpPassword, (passwordValidada, rechazada) => {
+            if (rechazada) {
+                alert('Error: ' + error);
+                return;
+            }
+            validarEmail($inpEmail, (emailValidado, rechazada) => {
+                if (rechazada) {
+                    alert('Error: ' + rechazada.message);
+                    return;
+                }
+                validarFecha($inpFecha, (fechaValidada, rechazada) => {
+                    if (rechazada) {
+                        alert('Error: ' + rechazada.message);
+                        return;
+                    }
+                })
+            })
+        });
+    });
+})
