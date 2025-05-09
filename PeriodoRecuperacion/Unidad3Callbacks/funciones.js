@@ -19,16 +19,16 @@ function validarNombre(nombreValidado, callback) {
 
 function validarPassword(passwordValidada, callback) {
     if (!tieneLongitud(8, passwordValidada)) {
-        callback(passwordValidada, new Error("La contraseña no cumple con la longitud indicada"));
+        callback(null, new Error("La contraseña no cumple con la longitud indicada"));
     }
     if (!tieneMayuscula(passwordValidada)) {
-        callback(passwordValidada, new Error("La contraseña no tiene letras mayusculas"));
+        callback(null, new Error("La contraseña no tiene letras mayusculas"));
     }
     if(!tieneMinusculas(passwordValidada)){
-        callback(passwordValidada,new Error("La contraseña no tiene letras minusculas"));
+        callback(null,new Error("La contraseña no tiene letras minusculas"));
     }
     if(!tieneNumero(passwordValidada)){
-        callback(passwordValidada,new Error("La contraseña no tiene numeros"));
+        callback(null,new Error("La contraseña no tiene numeros"));
     }
     callback(passwordValidada,null);
 }
@@ -37,12 +37,16 @@ function validarPassword(passwordValidada, callback) {
 
 
 function tieneLongitud(longitud, valor) {
-    return valor.length() < longitud;
+    if(valor.length >= longitud){
+        return true;
+    }else{
+        return false;
+    }
 
 }
 
 function tieneMayuscula(valor) {
-    for (let i = 0; i < valor.length(); i++) {
+    for (let i = 0; i < valor.length; i++) {
         let char = valor.charAt(i);
         if (char.toUpperCase() == char) {
             return true;
@@ -52,7 +56,7 @@ function tieneMayuscula(valor) {
 }
 
 function tieneMinusculas(valor){
-    for (let i = 0; i < valor.length(); i++) {
+    for (let i = 0; i < valor.length; i++) {
         let char = valor.charAt(i);
         if (char.toUpperCase() == char) {
             return true;
@@ -62,14 +66,22 @@ function tieneMinusculas(valor){
 }
 
 function tieneNumero(valor){
-
+    for(let i=0;i<valor.length;i++){
+         let char=valor.charAt(i);
+         for(let f=0;f<=9;f++){
+            if(char==f){
+                return true;
+            }
+         }
+    }
+    return false;
 }
 
 function validarEmail(valor, callback) {
-   let detras="";
+   
    let arroba=0;
-   for(let i=0;i<valor.length();i++){
-      if(valor.subString(i)=='@'){
+   for(let i=0;i<valor.length;i++){
+      if(valor.charAt(i)=='@'){
         arroba=i;
       }
    }
@@ -78,20 +90,28 @@ function validarEmail(valor, callback) {
     let usuario=partesEmail[0];
     let dominio=partesEmail[1];
     if(!usuario || !dominio){
-        callback(emailValido,new Error("El contenido del email no es valido"));
+        callback(null,new Error("El contenido del email no es valido 1"));
     }
 
-    let separacionPunto=dominio.spli('.');
-    if(separacionPunto[0].length<1 || separacionPunto[1].length>2){
-        callback(emailValido,new Error("El contenido del email no es valido")); 
+    let separacionPunto=dominio.split('.');
+    if(separacionPunto[1].length<2 || separacionPunto[1].length>3){
+        callback(null,new Error("El contenido del email no es valido 2")); 
     }
    }
-   callback(emailValido,null);
+   callback(valor,null);
 }
-function validarFecha(valor, callback) {
 
+function validarFecha(valor, callback) {
+   let fechaActual=new Date();
+   let nacimiento=new Date(valor);
+  let anios=fechaActual.getFullYear()-nacimiento.getFullYear();
+   if(anios>=18 && anios<=24){
+      callback(valor,null);
+   }else{
+      callback(null,new Error("LA fecha no es valida ha de tener entre 18 y 24 años"));
+   }
 }
 
 
   
-export {validarNombre,validarPassword};
+export {validarNombre,validarPassword,validarEmail,validarFecha};

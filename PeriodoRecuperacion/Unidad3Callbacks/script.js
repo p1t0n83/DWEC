@@ -1,4 +1,4 @@
-import { validarNombre, validarPassword } from "./funciones.js";
+import * as validaciones from "./funciones.js";
 
 const $btnGuardar = document.getElementById("guardar");
 
@@ -10,26 +10,28 @@ $btnGuardar.addEventListener("click", function (e) {
     const $inpFecha = document.getElementById("nacimiento").value;
 
 
-    validarNombre($inpNombre, (nombreValidado, rechazada) => {    
+    validaciones.validarNombre($inpNombre, (nombreValidado, rechazada) => {    
         if (rechazada) {
             alert('Error: ' + rechazada.message);
             return;
         }
-        validarPassword($inpPassword, (passwordValidada, rechazada) => {
+        validaciones.validarPassword($inpPassword, (passwordValidada, rechazada) => {
             if (rechazada) {
                 alert('Error: ' + rechazada.message);
                 return;
             }
-            validarEmail($inpEmail, (emailValidado, rechazada) => {
+            validaciones.validarEmail($inpEmail, (emailValidado, rechazada) => {
                 if (rechazada) {
                     alert('Error: ' + rechazada.message);
                     return;
                 }
-                validarFecha($inpFecha, (fechaValidada, rechazada) => {
+                validaciones.validarFecha($inpFecha, (fechaValidada, rechazada) => {
                     if (rechazada) {
                         alert('Error: ' + rechazada.message);
                         return;
                     }
+                    alert("Todos los campos son validos");
+                    
                 })
             })
         });
