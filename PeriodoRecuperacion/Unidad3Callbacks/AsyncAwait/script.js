@@ -24,32 +24,9 @@ function iniciarFormulario() {
         const $email = $inpEmail.value;
         const $fecha = $inpFecha.value;
 
-        validaciones.validarNombre($nombre)
-            .then(nombreValidado => {
-                localStorage.setItem("nombre", nombreValidado);
-                return validaciones.validarPassword($password);
-            })
-            .then(passwordValidada => {
-                localStorage.setItem("password", passwordValidada);
-                return validaciones.validarEmail($email);
-            })
-            .then(emailValidado => {
-                localStorage.setItem("email", emailValidado);
-                return validaciones.validarFecha($fecha);
-            })
-            .then(fechaValidada => {
-                localStorage.setItem("fecha", fechaValidada);
-                alert("Todos los campos son validos");
-
-            })
-            .catch(error=>{
-                alert(error);
-            })
-       
-
-
+        
     });
-}
 
+}
 
 iniciarFormulario();
