@@ -1,9 +1,9 @@
 
-async function getUsers() {
+async function getUsers(valor) {
     try {
         // Sin await response es una promesa
         const response = await fetch(
-            "https://jsonplaceholder.typicode.com/users");
+            "https://jsonplaceholder.typicode.com/"+valor);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
