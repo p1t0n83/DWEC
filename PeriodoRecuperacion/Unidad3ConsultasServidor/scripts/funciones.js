@@ -1,5 +1,5 @@
 
-async function getUsers(valor) {
+async function getValores(valor) {
     try {
         // Sin await response es una promesa
         const response = await fetch(
@@ -10,14 +10,10 @@ async function getUsers(valor) {
         // Sin await data es una promesa
         const data = await response.json();
         console.log("Datos recibidos:", data);
-        return  data;
+        return data;
     } catch (error) {
         console.error("Error al realizar la solicitud:", error.message);
     }
 }
 
-
-
-
-
-export { getUsers };
+export { getValores };

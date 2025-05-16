@@ -1,4 +1,16 @@
 /* Contenedor general que actúa como la tabla */
+.tabla5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Cuatro columnas, igual ancho */
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  margin: 20px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+/* Contenedor general que actúa como la tabla */
 .tabla4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Cuatro columnas, igual ancho */

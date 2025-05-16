@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="scripts/funcionesFotos.js" type="module"></script>
+    <link rel="stylesheet" href="estilos.css" />
+    <title>Document</title>
+</head>
+<body>
+     <h1>Página de fotos</h1>
+    <form>
+        <h2>Buscador</h2>
+        <input type="text" value="" id="filtro" placeholder="Filtro....">
+      <select id="elementos">
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="1">Todos</option>
+      </select>
+      <button id="btnelemento">Mostrar</button>
+    </form>
+    <div id="fotos"></div>
+    <div id="paginacion"></div>
+</body>
+</html>
