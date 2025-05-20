@@ -1,5 +1,17 @@
 /* Contenedor general que actúa como la tabla */
-.tabla {
+.tabla5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Cuatro columnas, igual ancho */
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  margin: 20px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+/* Contenedor general que actúa como la tabla */
+.tabla4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* Cuatro columnas, igual ancho */
   width: 100%;
@@ -25,12 +37,6 @@
   background-color: #f4f4f4; /* Fondo suave para las celdas */
 }
 
-/* Estilo opcional para destacar la primera fila como encabezado */
-.tabla .row:first-child .column {
-  background-color: #333;
-  color: #fff;
-  font-weight: bold;
-}
 
 /* Añadir efectos visuales al pasar el ratón sobre las celdas */
 .column:hover {
@@ -39,8 +45,43 @@
 }
 
 /* Estilo de los bordes */
-.tabla, .column {
+ .column {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
 
+/* Contenedor general que actúa como la tabla */
+.tabla2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Cuatro columnas, igual ancho */
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  margin: 20px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+/* Contenedor general que actúa como la tabla */
+.tabla3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Cuatro columnas, igual ancho */
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  margin: 20px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+/* Contenedor general que actúa como la tabla */
+.tabla1 {
+  display: grid;
+  grid-template-columns: 1fr; /* Cuatro columnas, igual ancho */
+  width: 100%;
+  border-collapse: collapse;
+  border: 2px solid #333;
+  margin: 20px 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
