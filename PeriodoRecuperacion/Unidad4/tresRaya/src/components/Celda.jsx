@@ -1,16 +1,16 @@
 import { useState } from "react";
-import "./Celda.css";
-function Celda({ caracter, mePeganPapa }) {
+
+function Celda({ caracter, posicion, mePeganPapa }) {
     const [cuerpo, setCuerpo] = useState("");
     const handleClick = () => {
         if (cuerpo == "") {
             setCuerpo(caracter);
-            mePeganPapa(caracter);
+            mePeganPapa(caracter, posicion);
         }
     }
 
     return (
-        <button className="celda" onClick={handleClick}>{cuerpo}</button>
+        <div className="celda" onClick={handleClick}>{cuerpo}</div>
     );
 }
 
