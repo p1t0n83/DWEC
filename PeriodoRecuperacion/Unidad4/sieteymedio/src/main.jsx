@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-
-import Juego from './components/Juego.jsx';
+import './estilos.css';
+import Juego from './components/juego.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
