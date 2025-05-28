@@ -1,3 +1,4 @@
+import * as Utilidades from './Utilidades.js';
 function Jugador({ baraja, tipo, nuevaCarta,siguiente }) {
   const pedirCartaClick =  () => {
     nuevaCarta(tipo,siguiente);
@@ -11,8 +12,9 @@ function Jugador({ baraja, tipo, nuevaCarta,siguiente }) {
           Carta: {carta.numero} de {carta.palo}
         </p>
       ))}
-      {tipo === "jugador" && (
+      {tipo === "jugador" && Utilidades.sumarCartas(baraja)<7.5 &&(
         <button onClick={pedirCartaClick}>Dame Carta</button>
+        
       )}
     </div>
   );
