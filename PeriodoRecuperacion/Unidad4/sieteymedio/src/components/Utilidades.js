@@ -48,23 +48,23 @@ const baraja = [
     { id: 40, palo: "bastos", numero: "rey", valor: 0.5 }
 ];
 
-async function barajarCartas() {
+ function barajarCartas() {
     let identificadores = [];
     for (let i = 1; i <= 40; i++) {
         identificadores.push(i);
     }
     return identificadores.sort((a, b) => Math.random() - 0.5);
 }
-async function sumarCartas(mano) {
+function sumarCartas(mano) {
     let suma = 0;
-    for (let i = 0; i < mano.length; i++) {
-        suma += baraja[mano[i]]['valor'];
+    for (let i = 0; i < mano.length; i++) { // Corregido: era length+1
+        suma += mano[i].valor;
     }
     return suma;
 }
 
-async function recuperarCartas(id) {
-    return baraja[id];
+async function recuperarCarta(id) {
+    return baraja[id-1];
 }
 
-export { baraja, barajarCartas, sumarCartas, recuperarCartas };
+export { baraja, barajarCartas, sumarCartas, recuperarCarta };

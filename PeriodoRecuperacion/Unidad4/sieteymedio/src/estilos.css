@@ -1,3 +1,13 @@
+/* estilos.css */
 div{
     border-color:4px solid black;
+}
+
+.caja-usuario {
+    border: 2px solid #1976d2;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 16px 0;
+    background: #f5faff;
+    box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
 }
