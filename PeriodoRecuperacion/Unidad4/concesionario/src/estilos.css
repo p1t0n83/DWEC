@@ -1,0 +1,149 @@
+.fila {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.columna {
+  flex: 1;
+  text-align: center;
+  padding: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.acciones {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 14px;
+  padding: 0;
+  font-family: inherit;
+}
+
+.link-btn:hover {
+  color: #0056b3;
+}
+
+.btn-borrar {
+  background-color: #dc3545;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.btn-borrar:hover {
+  background-color: #b02a37;
+}
+.formulario-coche {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 600px;
+  margin: 0 auto; /* opcional para centrar */
+}
+
+.formulario-coche label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.formulario-coche input,
+.formulario-coche select {
+  padding: 0.4rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formulario-coche button {
+  grid-column: 1 / -1; /* Ocupa todas las columnas */
+  padding: 0.7rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-coche button:hover {
+  background-color: #0056b3;
+}
+
+.formulario-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  max-width: 400px;
+  margin: 1rem auto;
+}
+
+.formulario-login label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.formulario-login input {
+  padding: 0.4rem;
+  font-size: 1rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.formulario-login button {
+  grid-column: 1 / -1; /* Ocupa ambas columnas */
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.formulario-login button:hover {
+  background-color: #218838;
+}
+
+button[type="button"] {
+  padding: 0.6rem 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 1rem auto;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+button[type="button"]:hover {
+  background-color: #c82333;
+}

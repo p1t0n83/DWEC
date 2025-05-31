@@ -12,6 +12,7 @@ function AppEnrutador() {
                 <Route path="/" element={<AppLayout />}>
                     <Route index element={<EscaparatePage />} />
                     <Route path="coches" element={<CochesPage />} />
+                  
                     <Route path="coches/detalles/:id" element={<CochePage />} />
                     <Route path="coches/crear" element={<CochePage />} />
                     <Route path="coches/actualizar/:id" element={<CochePage />} />
