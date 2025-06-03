@@ -1,11 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import $negocio from "../core/negocio";
-function LineaPaciente({ paciente }) {
+
+function LineaPaciente({ paciente, onBorrado }) {
   const {
     id = 0,
     nombre = "",
-    dni = 0,
+    dni = "",
     email = "",
     telefono = "",
     fechaNacimiento = "",
@@ -13,13 +13,17 @@ function LineaPaciente({ paciente }) {
     direccion = "",
     seguroMedico = "",
   } = paciente;
+
   const navegar = useNavigate();
+
   const editar = () => {
     navegar(`../paciente/${id}`);
   };
-  const borrar = () => {
-    if (confirm("¿Estás seguro de que quieres eliminar este paciente?")) {
-      $negocio.eliminarPaciente(id);
+
+  const borrar = async () => {
+    if (confirm("¿Seguro que quieres eliminar este paciente?")) {
+      await $negocio.eliminarPaciente(id);
+      if (onBorrado) onBorrado();
     }
   };
 
@@ -35,7 +39,7 @@ function LineaPaciente({ paciente }) {
       <div>{direccion}</div>
       <div>{seguroMedico}</div>
       <div>
-        <button onClick={editar}>editar</button>
+        <button onClick={editar}>Editar</button>
         <button onClick={borrar}>Borrar</button>
       </div>
     </div>

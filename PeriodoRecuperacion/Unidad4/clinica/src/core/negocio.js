@@ -154,7 +154,6 @@ const $negocio = (function () {
   }
 
   async function obtenerUsuarios() {
-    //no hay parámetros...
     return [...usuarios];
   }
 

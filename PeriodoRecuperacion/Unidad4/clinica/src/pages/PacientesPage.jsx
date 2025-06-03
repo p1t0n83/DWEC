@@ -79,7 +79,7 @@ function PacientesPage() {
           <div>Acciones</div>
         </div>
         {pacientes.map((cadaPaciente) => (
-          <LineaPaciente key={cadaPaciente.id} paciente={cadaPaciente} />
+          <LineaPaciente key={cadaPaciente.id} paciente={cadaPaciente}  onBorrado={obtenerPacientes} />
         ))}
       </div>
       <button onClick={anterior} disabled={pagina === 0}>
