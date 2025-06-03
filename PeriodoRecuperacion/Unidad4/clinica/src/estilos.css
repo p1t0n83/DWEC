@@ -1,0 +1,23 @@
+.tabla {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid black;
+    margin:20px 10px;
+}
+
+.fila {
+    display: flex;
+    flex-direction: row;
+    padding: 5px auto;
+
+    /*esto es la celda*/
+    div {
+        flex: 1;
+        border: 1px solid black;
+    }
+}
+
+.cabecera {
+    font-weight: bold;
+    text-align: center;
+}
