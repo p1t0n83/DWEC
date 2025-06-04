@@ -11,7 +11,7 @@ function PropiedadesUsuarioPage() {
   const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    if (datos.tipo !== "Admin") {
+    if (datos.tipo !== "admin") {
       navegar("/");
     }
   }, [datos, navegar]);

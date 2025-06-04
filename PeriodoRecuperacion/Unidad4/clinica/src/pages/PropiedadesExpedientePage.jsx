@@ -19,7 +19,7 @@ function PropiedadesExpedientePage() {
   };
 
   useEffect(() => {
-    if (datos.tipo != "Medico" && datos.tipo != "Admin") {
+    if (datos.tipo != "medico" && datos.tipo != "admin") {
       navegar("/");
     }
   }, [datos, navegar]);

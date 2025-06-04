@@ -10,7 +10,7 @@ function UsuariosPage() {
   const navegar = useNavigate();
 
   useEffect(() => {
-    if (datos.tipo != "Admin") {
+    if (datos.tipo != "admin") {
       navegar("/");
     }
   }, [datos, navegar]);

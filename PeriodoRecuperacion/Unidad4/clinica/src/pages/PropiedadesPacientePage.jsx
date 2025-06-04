@@ -23,7 +23,7 @@ function PropiedadesPacientePage() {
   const [paciente, setPaciente] = useState(id === 0 ? pacienteVacio : null);
 
   useEffect(() => {
-    if (datos.tipo != "Gestion") {
+    if (datos.tipo != "gestion") {
       navegar("/");
     }
   }, [datos, navegar]);

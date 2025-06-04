@@ -14,7 +14,7 @@ function PacientesPage() {
   const [pagina, setpagina] = useState(0);
 
   useEffect(() => {
-    if (datos.tipo != "Gestion" && datos.tipo != "Admin") {
+    if (datos.tipo != "gestion" && datos.tipo != "admin") {
       navegar("/");
     }
   }, [datos, navegar]);

@@ -14,7 +14,7 @@ function ExpedientesPage() {
   const [pagina, setPagina] = useState(0);
 
   useEffect(() => {
-    if (datos.tipo != "Medico" && datos.tipo != "Admin") {
+    if (datos.tipo != "medico" && datos.tipo != "admin") {
       navegar("/");
     }
   }, [datos, navegar]);
