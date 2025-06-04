@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import $negocio from "../core/negocio";
 import LineaPaciente from "../components/LineaPaciente";
 import { useNavigate } from "react-router-dom";
+import { SeguridadContext } from "../context/SeguridadContext";
 
 function PacientesPage() {
+  const { datos } = useContext(SeguridadContext);
   const [pacientes, setPacientes] = useState([]);
   const [pacientesTotal, setPacientesTotal] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -11,14 +13,23 @@ function PacientesPage() {
   const limite = 5;
   const [pagina, setpagina] = useState(0);
 
-  
+  useEffect(() => {
+    if (datos.tipo != "Gestion" && datos.tipo != "Admin") {
+      navegar("/");
+    }
+  }, [datos, navegar]);
+
   const obtenerPacientesTotales = async () => {
     let resultado = await $negocio.obtenerPacientes();
     setPacientesTotal(resultado);
   };
 
   const obtenerPacientes = async () => {
-    let resultado = await $negocio.obtenerPacientes(busqueda, pagina * limite, limite);
+    let resultado = await $negocio.obtenerPacientes(
+      busqueda,
+      pagina * limite,
+      limite
+    );
     setPacientes(resultado);
   };
 
@@ -49,7 +60,6 @@ function PacientesPage() {
     }
   };
 
-
   const onChangeBusqueda = (e) => {
     setBusqueda(e.target.value);
     setpagina(0);
@@ -63,7 +73,6 @@ function PacientesPage() {
         placeholder="Buscar paciente..."
         value={busqueda}
         onChange={onChangeBusqueda}
-       
       />
       <div className="tabla">
         <div className="fila cabecera">
@@ -79,7 +88,11 @@ function PacientesPage() {
           <div>Acciones</div>
         </div>
         {pacientes.map((cadaPaciente) => (
-          <LineaPaciente key={cadaPaciente.id} paciente={cadaPaciente}  onBorrado={obtenerPacientes} />
+          <LineaPaciente
+            key={cadaPaciente.id}
+            paciente={cadaPaciente}
+            onBorrado={obtenerPacientes}
+          />
         ))}
       </div>
       <button onClick={anterior} disabled={pagina === 0}>

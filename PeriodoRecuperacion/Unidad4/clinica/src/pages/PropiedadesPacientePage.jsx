@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import $negocio from "../core/negocio";
+import { SeguridadContext } from "../context/SeguridadContext";
 
 function PropiedadesPacientePage() {
+  const { datos } = useContext(SeguridadContext);
   const { id: idParam } = useParams();
   const id = Number(idParam);
-  const navegar=useNavigate();
+  const navegar = useNavigate();
   const pacienteVacio = {
     id: 0,
     nombre: "",
@@ -19,6 +21,12 @@ function PropiedadesPacientePage() {
   };
 
   const [paciente, setPaciente] = useState(id === 0 ? pacienteVacio : null);
+
+  useEffect(() => {
+    if (datos.tipo != "Gestion") {
+      navegar("/");
+    }
+  }, [datos, navegar]);
 
   useEffect(() => {
     if (id !== 0) {
@@ -46,7 +54,7 @@ function PropiedadesPacientePage() {
     } else {
       $negocio.actualizarPaciente(paciente);
     }
-    navegar('/pacientes');
+    navegar("/pacientes");
   };
 
   return (
@@ -105,11 +113,7 @@ function PropiedadesPacientePage() {
 
           <div>
             <label>Sexo:</label>
-            <select
-              name="sexo"
-              value={paciente.sexo}
-              onChange={handleChange}
-            >
+            <select name="sexo" value={paciente.sexo} onChange={handleChange}>
               <option value="">Seleccione...</option>
               <option value="Masculino">Masculino</option>
               <option value="Femenino">Femenino</option>

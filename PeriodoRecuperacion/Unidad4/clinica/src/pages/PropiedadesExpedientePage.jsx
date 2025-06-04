@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import $negocio from "../core/negocio";
+import { SeguridadContext } from "../context/SeguridadContext";
 
 function PropiedadesExpedientePage() {
+  const { datos } = useContext(SeguridadContext);
   const { id } = useParams(); // id de la URL
   const pacienteId = Number(id); // ese id es el pacienteId
   const navegar = useNavigate();
-
   const expedienteVacio = {
     id: 0,
     pacienteId: pacienteId,
@@ -16,6 +17,12 @@ function PropiedadesExpedientePage() {
     tratamientos: "",
     observaciones: "",
   };
+
+  useEffect(() => {
+    if (datos.tipo != "Medico" && datos.tipo != "Admin") {
+      navegar("/");
+    }
+  }, [datos, navegar]);
 
   const [expediente, setExpediente] = useState(null);
 

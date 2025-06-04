@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import $negocio from "../core/negocio";
 import LineaExpediente from "../components/LineaExpediente";
 import { useNavigate } from "react-router-dom";
+import { SeguridadContext } from "../context/SeguridadContext";
 
 function ExpedientesPage() {
+  const { datos } = useContext(SeguridadContext);
   const [pacientes, setPacientes] = useState([]);
   const [pacientesTotal, setPacientesTotal] = useState([]);
   const [busqueda, setBusqueda] = useState("");
@@ -11,13 +13,23 @@ function ExpedientesPage() {
   const limite = 5;
   const [pagina, setPagina] = useState(0);
 
+  useEffect(() => {
+    if (datos.tipo != "Medico" && datos.tipo != "Admin") {
+      navegar("/");
+    }
+  }, [datos, navegar]);
+
   const obtenerPacientesTotales = async () => {
     let resultado = await $negocio.obtenerPacientes();
     setPacientesTotal(resultado);
   };
 
   const obtenerPacientes = async () => {
-    let resultado = await $negocio.obtenerPacientes(busqueda, pagina * limite, limite);
+    let resultado = await $negocio.obtenerPacientes(
+      busqueda,
+      pagina * limite,
+      limite
+    );
     setPacientes(resultado);
   };
 

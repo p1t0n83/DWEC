@@ -1,23 +1,25 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import $negocio from "../core/negocio";
+import { SeguridadContext } from "../context/SeguridadContext";
 
 function PropiedadesUsuarioPage() {
+  const { datos } = useContext(SeguridadContext);
   const { id: idParam } = useParams();
   const id = Number(idParam);
   const navegar = useNavigate();
-
-  const usuarioVacio = {
-    id: 0,
-    username: "",
-    password: "",
-    tipo: "",  // podría ser "gestion", "admin", etc.
-  };
-
-  const [usuario, setUsuario] = useState(id === 0 ? usuarioVacio : null);
+  const [usuario, setUsuario] = useState(null);
 
   useEffect(() => {
-    if (id !== 0) {
+    if (datos.tipo !== "Admin") {
+      navegar("/");
+    }
+  }, [datos, navegar]);
+
+  useEffect(() => {
+    if (id === 0) {
+      setUsuario({ username: "", password: "", tipo: "" });
+    } else {
       obtenerUsuario();
     }
   }, [id]);
@@ -35,14 +37,14 @@ function PropiedadesUsuarioPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (id === 0) {
-      $negocio.crearUsuario(usuario);
+      await $negocio.crearUsuario(usuario);
     } else {
-      $negocio.actualizarUsuario(usuario);
+      await $negocio.actualizarUsuario(usuario);
     }
-    navegar("../usuarios");
+    navegar("/usuarios");
   };
 
   return (
@@ -76,7 +78,6 @@ function PropiedadesUsuarioPage() {
               <option value="">Seleccione...</option>
               <option value="gestion">Gestión</option>
               <option value="admin">Administrador</option>
-              {/* Agrega más opciones según tipos de usuario */}
             </select>
           </div>
 
